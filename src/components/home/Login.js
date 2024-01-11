@@ -31,7 +31,7 @@ function Login() {
 
     try {
       const response = await orderApi.authenticate(username, password)
-      const { accessToken } = response.data.token;
+      const  accessToken  = response.data.token;
       const data = parseJwt(accessToken)
       const authenticatedUser = { data, accessToken }
 
