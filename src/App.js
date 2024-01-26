@@ -15,7 +15,6 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
           <Route path="/adminpage" element={<PrivateRoute><AdminPage /></PrivateRoute>} />
