@@ -15,8 +15,6 @@ export const orderApi = {
 }
 
 function authenticate(username, password) {
-    console.log(username);
-    console.log(password)
     const email = username;
     return instance.post('/rest/auth/login', {email, password}, {
         headers: {'Content-type': 'application/json'}
