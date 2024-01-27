@@ -1,50 +1,38 @@
-import React, { useEffect, useState } from 'react'
-import { Statistic, Icon, Grid, Container, Image, Segment, Dimmer, Loader } from 'semantic-ui-react'
-import { orderApi } from '../misc/OrderApi'
-import { handleLogError } from '../misc/Helpers'
+import React, {useState} from 'react'
+import {Dimmer, Loader, Segment} from 'semantic-ui-react'
+import {useAuth} from "../context/AuthContext";
 
 function Home() {
-  const [numberOfUsers, setNumberOfUsers] = useState(0)
-  const [numberOfOrders, setNumberOfOrders] = useState(0)
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const responseUsers = await orderApi.numberOfUsers()
-        const numberOfUsers = responseUsers.data
-
-        const responseOrders = await orderApi.numberOfOrders()
-        const numberOfOrders = responseOrders.data
-
-        setNumberOfUsers(numberOfUsers)
-        setNumberOfOrders(numberOfOrders)
-      } catch (error) {
-        handleLogError(error)
-      } finally {
-        setIsLoading(false)
-      }
+    const Auth = useAuth()
+    const isLoggedIn = Auth.userIsAuthenticated()
+    const [isLoading, setIsLoading] = useState(false)
+    if (isLoading) {
+        return (
+            <Segment basic style={{marginTop: window.innerHeight / 2}}>
+                <Dimmer active inverted>
+                    <Loader inverted size='huge'>Loading</Loader>
+                </Dimmer>
+            </Segment>
+        )
     }
 
-    fetchData()
-  }, [])
+    const logout = () => {
+        Auth.userLogout();
+    }
 
-  if (isLoading) {
-    return (
-      <Segment basic style={{ marginTop: window.innerHeight / 2 }}>
-        <Dimmer active inverted>
-          <Loader inverted size='huge'>Loading</Loader>
-        </Dimmer>
-      </Segment>
+    if (isLoggedIn) {
+        return (
+            <div>
+                <div>Login HOME</div>
+                <div>
+                    <button onClick={logout}>LOGOUT</button>
+                </div>
+            </div>
+        )
+    }
+
+    return (<div>Logout HOME</div>
     )
-  }
-
-  return (
-    <Container text>
-      <Image src='https://react.semantic-ui.com/images/wireframe/media-paragraph.png' style={{ marginTop: '2em' }} />
-      <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' style={{ marginTop: '2em' }} />
-    </Container>
-  )
 }
 
 export default Home

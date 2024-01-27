@@ -8,7 +8,6 @@ import { parseJwt, handleLogError } from '../misc/Helpers'
 function Login() {
   const Auth = useAuth()
   const isLoggedIn = Auth.userIsAuthenticated()
-
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isError, setIsError] = useState(false)
@@ -78,6 +77,7 @@ function Login() {
             <Button color='violet' fluid size='large'>Login</Button>
           </Segment>
         </Form>
+
         <Message>{`Don't have already an account? `}
           <NavLink to="/signup" color='violet' as={NavLink}>Sign Up</NavLink>
         </Message>
