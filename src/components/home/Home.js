@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {Dimmer, Loader, Message, Segment} from 'semantic-ui-react'
 import {useAuth} from "../context/AuthContext";
 import {NavLink} from "react-router-dom";
+import HomeDashBoard from "./dashboard/HomeDashBoard";
 
 function Home() {
     const Auth = useAuth()
@@ -17,19 +18,8 @@ function Home() {
         )
     }
 
-    const logout = () => {
-        Auth.userLogout();
-    }
-
     if (isLoggedIn) {
-        return (
-            <div>
-                <div>Login HOME</div>
-                <div>
-                    <button onClick={logout}>LOGOUT</button>
-                </div>
-            </div>
-        )
+        return (<HomeDashBoard/>)
     }
 
     return (
