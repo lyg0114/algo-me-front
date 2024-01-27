@@ -5,8 +5,6 @@ import { parseJwt } from './Helpers'
 export const orderApi = {
   authenticate,
   signup,
-  numberOfUsers,
-  numberOfOrders,
   getUsers,
   deleteUser,
   getOrders,
@@ -16,6 +14,8 @@ export const orderApi = {
 }
 
 function authenticate(username, password) {
+  console.log(username);
+  console.log(password)
   const email = username;
   return instance.post('/rest/auth/login', { email, password }, {
     headers: { 'Content-type': 'application/json' }
@@ -26,14 +26,6 @@ function signup(user) {
   return instance.post('/auth/signup', user, {
     headers: { 'Content-type': 'application/json' }
   })
-}
-
-function numberOfUsers() {
-  return instance.get('/public/numberOfUsers')
-}
-
-function numberOfOrders() {
-  return instance.get('/public/numberOfOrders')
 }
 
 function getUsers(user, username) {

@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
-import {Dimmer, Loader, Segment} from 'semantic-ui-react'
+import {Dimmer, Loader, Message, Segment} from 'semantic-ui-react'
 import {useAuth} from "../context/AuthContext";
+import {NavLink} from "react-router-dom";
 
 function Home() {
     const Auth = useAuth()
@@ -31,7 +32,13 @@ function Home() {
         )
     }
 
-    return (<div>Logout HOME</div>
+    return (
+        <div>
+            Logout HOME
+            <Message>{`Don't have already an account? `}
+                <NavLink to="/signup" color='violet' as={NavLink}>Sign Up</NavLink>
+            </Message>
+        </div>
     )
 }
 
