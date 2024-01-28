@@ -13,7 +13,6 @@ function HomeDashBoard() {
         try {
             const response = await orderApi.getQuestions(user);
             const result = await response.data.content; // 변경된 부분: response.data가 아닌 response.json()을 사용
-            debugger
             setQuestions(result);
         } catch (error) {
             handleLogError(error);

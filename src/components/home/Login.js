@@ -22,7 +22,6 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
     if (!(username && password)) {
       setIsError(true)
       return
@@ -33,9 +32,7 @@ function Login() {
       const  accessToken  = response.data.token;
       const data = parseJwt(accessToken)
       const authenticatedUser = { data, accessToken }
-
       Auth.userLogin(authenticatedUser)
-
       setUsername('')
       setPassword('')
       setIsError(false)
@@ -50,11 +47,9 @@ function Login() {
   }
 
   return (
-    <Grid textAlign='center'>
-      <Grid.Column style={{ maxWidth: 450 }}>
+      <div>
         <Form size='large' onSubmit={handleSubmit}>
-          <Segment>
-            <Form.Input
+          <Form.Input
               fluid
               autoFocus
               name='username'
@@ -63,8 +58,8 @@ function Login() {
               placeholder='Username'
               value={username}
               onChange={handleInputChange}
-            />
-            <Form.Input
+          />
+          <Form.Input
               fluid
               name='password'
               icon='lock'
@@ -73,19 +68,13 @@ function Login() {
               type='password'
               value={password}
               onChange={handleInputChange}
-            />
-            <Button color='violet' fluid size='large'>Login</Button>
-          </Segment>
+          />
+          <Button color='violet' fluid size='large'>Login</Button>
         </Form>
-
-        <Message>{`Don't have already an account? `}
-          <NavLink to="/signup" color='violet' as={NavLink}>Sign Up</NavLink>
-        </Message>
-
-        {isError && <Message negative>The username or password provided are incorrect!</Message>}
-
-      </Grid.Column>
-    </Grid>
+        <div>Don't have already an account?</div>
+        <NavLink to="/signup" color='violet' as={NavLink}>Sign Up</NavLink>
+        {isError && <span>The username or password provided are incorrect!</span>}
+      </div>
   )
 }
 
