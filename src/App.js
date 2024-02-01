@@ -1,12 +1,12 @@
 import React from 'react'
-import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom'
-import {AuthProvider} from './components/context/AuthContext'
-import PrivateRoute from './components/misc/PrivateRoute'
-import Home from './components/home/Home'
-import Login from './components/home/Login'
-import Signup from './components/home/Signup'
-import AdminPage from './components/admin/AdminPage'
-import UserPage from './components/user/UserPage'
+import {AuthProvider} from "./components/context/AuthContext";
+import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom'
+import Home from "./components/home/Home";
+import Login from "./components/home/Login";
+import Signup from "./components/home/Signup";
+import PrivateRoute from "./components/misc/PrivateRoute";
+import UserPage from "./components/user/UserPage";
+import AdminPage from "./components/admin/AdminPage";
 
 function App() {
     return (
