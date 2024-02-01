@@ -56,27 +56,6 @@ function HomeDashBoard() {
                                     ))}
                                 </div>
                             </div>
-
-                            {/*<ul>*/}
-                            {/*    {questions.map((question) => (*/}
-                            {/*        <li key={question.id}>*/}
-                            {/*            <div>*/}
-                            {/*                <strong>Title:</strong> {question.title}*/}
-                            {/*            </div>*/}
-                            {/*            <div>*/}
-                            {/*                <strong>URL:</strong>{" "}*/}
-                            {/*                <a href={question.url} target="_blank" rel="noopener noreferrer">*/}
-                            {/*                    {question.url}*/}
-                            {/*                </a>*/}
-                            {/*            </div>*/}
-                            {/*            <div>*/}
-                            {/*                <strong>Source:</strong> {question.fromSource}*/}
-                            {/*            </div>*/}
-                            {/*            /!* Add more fields as needed *!/*/}
-                            {/*        </li>*/}
-                            {/*    ))}*/}
-                            {/*</ul>*/}
-
                         </div>
                     )}
                 </>
@@ -87,4 +66,5 @@ function HomeDashBoard() {
         </div>
     );
 }
+
 export default HomeDashBoard
