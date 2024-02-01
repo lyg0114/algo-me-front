@@ -1,7 +1,8 @@
 import {useAuth} from "../../context/AuthContext";
 import {orderApi} from "../../misc/OrderApi";
 import {handleLogError} from "../../misc/Helpers";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
+import QuestionCard from "../QuestionCard";
 
 function HomeDashBoard() {
     const Auth = useAuth();
@@ -10,9 +11,10 @@ function HomeDashBoard() {
 
     const fetchQuestions = async () => {
         let user = Auth.getUser();
+        // debugger
         try {
             const response = await orderApi.getQuestions(user);
-            const result = await response.data.content; // 변경된 부분: response.data가 아닌 response.json()을 사용
+            const result = await response.data.content;
             setQuestions(result);
         } catch (error) {
             handleLogError(error);
@@ -40,25 +42,41 @@ function HomeDashBoard() {
                     {questions && (
                         <div>
                             <h2>Questions:</h2>
-                            <ul>
-                                {questions.map((question) => (
-                                    <li key={question.id}>
-                                        <div>
-                                            <strong>Title:</strong> {question.title}
-                                        </div>
-                                        <div>
-                                            <strong>URL:</strong>{" "}
-                                            <a href={question.url} target="_blank" rel="noopener noreferrer">
-                                                {question.url}
-                                            </a>
-                                        </div>
-                                        <div>
-                                            <strong>Source:</strong> {question.fromSource}
-                                        </div>
-                                        {/* Add more fields as needed */}
-                                    </li>
-                                ))}
-                            </ul>
+                            <div className="container mx-auto my-96">
+                                <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 gap-4">
+                                    {questions.map((question, index) => (
+                                        <QuestionCard
+                                            key={index}
+                                            _id={question.id}
+                                            img={question.img}
+                                            title={question.title}
+                                            reviewCount={question.reviewCount}
+                                            registDt={question.registDt}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/*<ul>*/}
+                            {/*    {questions.map((question) => (*/}
+                            {/*        <li key={question.id}>*/}
+                            {/*            <div>*/}
+                            {/*                <strong>Title:</strong> {question.title}*/}
+                            {/*            </div>*/}
+                            {/*            <div>*/}
+                            {/*                <strong>URL:</strong>{" "}*/}
+                            {/*                <a href={question.url} target="_blank" rel="noopener noreferrer">*/}
+                            {/*                    {question.url}*/}
+                            {/*                </a>*/}
+                            {/*            </div>*/}
+                            {/*            <div>*/}
+                            {/*                <strong>Source:</strong> {question.fromSource}*/}
+                            {/*            </div>*/}
+                            {/*            /!* Add more fields as needed *!/*/}
+                            {/*        </li>*/}
+                            {/*    ))}*/}
+                            {/*</ul>*/}
+
                         </div>
                     )}
                 </>

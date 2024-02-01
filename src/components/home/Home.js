@@ -7,6 +7,7 @@ function Home() {
     const Auth = useAuth()
     const isLoggedIn = Auth.userIsAuthenticated()
     const [isLoading, setIsLoading] = useState(false)
+
     if (isLoading) {
         return (
             <div>### LOADING ###</div>
