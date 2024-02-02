@@ -7,13 +7,14 @@ import Signup from "./components/home/Signup";
 import PrivateRoute from "./components/misc/PrivateRoute";
 import UserPage from "./components/user/UserPage";
 import AdminPage from "./components/admin/AdminPage";
+import Layout from "./components/LayOut";
 
 function App() {
     return (
         <AuthProvider>
             <Router>
                 <Routes>
-                    <Route path='/' element={<Home/>}/>
+                    <Route path='/' element={<Layout><Home/></Layout>}/>
                     <Route path='/login' element={<Login/>}/>
                     <Route path='/signup' element={<Signup/>}/>
                     <Route path="/adminpage" element={<PrivateRoute><AdminPage/></PrivateRoute>}/>
