@@ -1,22 +1,23 @@
 import React, { useState } from 'react'
 import { NavLink, Navigate } from 'react-router-dom'
-import { Button, Form, Grid, Segment, Message } from 'semantic-ui-react'
 import { useAuth } from '../context/AuthContext'
 import { orderApi } from '../misc/OrderApi'
 import { parseJwt, handleLogError } from '../misc/Helpers'
 
 function Login() {
+
   const Auth = useAuth()
   const isLoggedIn = Auth.userIsAuthenticated()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isError, setIsError] = useState(false)
 
-  const handleInputChange = (e, { name, value }) => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target; // Destructure from e.target
     if (name === 'username') {
-      setUsername(value)
+      setUsername(value);
     } else if (name === 'password') {
-      setPassword(value)
+      setPassword(value);
     }
   }
 
@@ -47,33 +48,48 @@ function Login() {
   }
 
   return (
-      <div>
-        <Form size='large' onSubmit={handleSubmit}>
-          <Form.Input
-              fluid
-              autoFocus
-              name='username'
-              icon='user'
-              iconPosition='left'
-              placeholder='Username'
-              value={username}
-              onChange={handleInputChange}
-          />
-          <Form.Input
-              fluid
-              name='password'
-              icon='lock'
-              iconPosition='left'
-              placeholder='Password'
-              type='password'
-              value={password}
-              onChange={handleInputChange}
-          />
-          <Button color='violet' fluid size='large'>Login</Button>
-        </Form>
-        <div>Don't have already an account?</div>
-        <NavLink to="/signup" color='violet' as={NavLink}>Sign Up</NavLink>
-        {isError && <span>The username or password provided are incorrect!</span>}
+      <div className="min-h-screen flex items-center justify-center bg-gray-900">
+        <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
+          <h2 className="text-3xl font-extrabold text-gray-900 mb-4">LOGIN</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label htmlFor="username" className="block text-gray-700 text-sm font-bold mb-2">
+               ID
+              </label>
+              <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value={username}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border rounded-md"
+                  placeholder="Enter your id"
+                  required
+              />
+            </div>
+            <div className="mb-6">
+              <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">
+               PW
+              </label>
+              <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={password}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border rounded-md"
+                  placeholder="Enter your password"
+                  required
+              />
+            </div>
+            <button
+                type="submit"
+                className="w-full bg-blue-500 text-white font-bold p-2 rounded-md hover:bg-blue-600 transition duration-300"
+            >
+              Login
+            </button>
+          </form>
+        </div>
       </div>
   )
 }
