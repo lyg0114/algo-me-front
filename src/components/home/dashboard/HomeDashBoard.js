@@ -11,7 +11,6 @@ function HomeDashBoard() {
 
     const fetchQuestions = async () => {
         let user = Auth.getUser();
-        // debugger
         try {
             const response = await orderApi.getQuestions(user);
             const result = await response.data.content;
