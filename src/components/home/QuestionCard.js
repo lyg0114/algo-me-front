@@ -2,24 +2,28 @@ import React from 'react'
 
 function QuestionCard(props) {
     return (
-        <div className="w-full relative group">
-            <div className="max-w-80 max-h-80 relative overflow-y-hidden ">
-                <div>
-                    <img className="w-full h-full" src={props.img}/>
-                </div>
+        <div key={props.id} className="group relative">
+            <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                <img
+                    src={"https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"}
+                    alt={""}
+                    className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                />
             </div>
-
-            <div className="max-w-80 py-6 flex flex-col gap-1 border-[1px] border-t-0 px-4">
-                <div className="flex items-center justify-between font-titleFont">
-                    <h2 className="text-lg text-primeColor font-bold"> {props.title} </h2>
-                    <p className="text-[#767676] text-[14px]">views : {props.reviewCount}</p>
-                </div>
+            <div className="mt-4 flex justify-between">
                 <div>
-                    <p className="text-[#767676] text-[14px]">{props.registDt}</p>
+                    <h3 className="text-sm text-gray-700">
+                        <a href={"#"}>
+                            <span aria-hidden="true" className="absolute inset-0"/>
+                            {props.title}
+                        </a>
+                    </h3>
+                    <p className="mt-1 text-sm text-gray-500">{props.registDt}</p>
                 </div>
+                <p className="text-sm font-medium text-gray-900">{props.reviewCount}</p>
             </div>
         </div>
-    );
+    )
 }
 
 export default QuestionCard
