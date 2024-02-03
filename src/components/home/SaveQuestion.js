@@ -1,24 +1,88 @@
 import React, {useState} from 'react'
-import {NavLink} from "react-router-dom";
+import {Navigate, NavLink} from "react-router-dom";
+import {handleLogError} from "../misc/Helpers";
+import {orderApi} from "../misc/OrderApi";
+import {useAuth} from "../context/AuthContext";
 
 function SaveQuestion() {
+    const Auth = useAuth();
+    let user = Auth.getUser();
     const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
+    const [url, setUrl] = useState('');
+    const [fromSource, setFromSource] = useState('');
+    const [questionType, setQuestionType] = useState('');
+    const [isError, setIsError] = useState(false)
+    const [isSaved, setIsSaved] = useState(false)
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission logic here
+        try {
+            const response = await orderApi.saveQuestions({title, url, fromSource, questionType}, user);
+            setIsError(false);
+            setTitle("");
+            setUrl("");
+            setFromSource("");
+            setQuestionType("");
+            setIsSaved(true);
+        } catch (error) {
+            handleLogError(error)
+            setIsError(true)
+        }
     };
+
+    if (isSaved) {
+        alert("등록이 완료되었습니다.");
+        return <Navigate to={'/'} />
+    }
 
     return (
         <div className="bg-white">
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                 <form onSubmit={handleSubmit}>
+
+                    <div className="mb-4">
+                        <label htmlFor="questionType" className="block text-sm font-medium text-gray-700">
+                            문제유형
+                        </label>
+                        <select
+                            id="questionType"
+                            name="questionType"
+                            value={questionType}
+                            onChange={(e) => setQuestionType(e.target.value)}
+                            className="mt-1 p-2 w-1/4 border rounded-md" // Adjusted size and added width class
+                            required
+                        >
+                            <option value="">문제유형 선택</option>
+                            <option value="GREEDY">GREEDY</option>
+                            <option value="DP">DP</option>
+                            <option value="DFS">DFS</option>
+                            <option value="BFS">BFS</option>
+                        </select>
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="fromSource" className="block text-sm font-medium text-gray-700">
+                            출처
+                        </label>
+                        <select
+                            id="fromSource"
+                            name="fromSource"
+                            value={fromSource}
+                            onChange={(e) => setFromSource(e.target.value)}
+                            className="mt-1 p-2 w-1/4 border rounded-md" // Adjusted size and added width class
+                            required
+                        >
+                            <option value="">출처 선택</option>
+                            <option value="LEETCODE">LEETCODE</option>
+                            <option value="백준">백준</option>
+                            <option value="프로그래머스">프로그래머스</option>
+                        </select>
+                    </div>
                     <div className="mb-4">
                         <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-                            Title
+                            제목
                         </label>
                         <input
+                            placeholder={"제목을 입력하세요"}
                             type="text"
                             id="title"
                             name="title"
@@ -28,20 +92,20 @@ function SaveQuestion() {
                             required
                         />
                     </div>
-
                     <div className="mb-4">
-                        <label htmlFor="content" className="block text-sm font-medium text-gray-700">
-                            Content
+                        <label htmlFor="url" className="block text-sm font-medium text-gray-700">
+                            URL
                         </label>
-                        <textarea
-                            id="content"
-                            name="content"
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                            rows="4"
+                        <input
+                            placeholder={"URL을 입력하세요"}
+                            type="text"
+                            id="url"
+                            name="url"
+                            value={url}
+                            onChange={(e) => setUrl(e.target.value)}
                             className="mt-1 p-2 w-full border rounded-md"
                             required
-                        ></textarea>
+                        />
                     </div>
 
                     <div className="flex justify-end mb-8">
@@ -49,20 +113,18 @@ function SaveQuestion() {
                             className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
                             to="/"
                             color='violet'
-                            as={NavLink}>CANCLE</NavLink>
+                            as={NavLink}>취소</NavLink>
                         <button
                             type="submit"
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                         >
-                            CREATE POST
+                            등록
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     );
-
-
 }
 
 export default SaveQuestion

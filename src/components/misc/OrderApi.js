@@ -5,7 +5,8 @@ import {parseJwt} from './Helpers'
 export const orderApi = {
     authenticate,
     signup,
-    getQuestions
+    getQuestions,
+    saveQuestions
 }
 
 function authenticate(username, password) {
@@ -25,6 +26,15 @@ function getQuestions(user) {
     const url = '/questions';
     return instance.get(url, {
         headers: {'Authorization': bearerAuth(user)}
+    })
+}
+
+function saveQuestions(question, user) {
+    return instance.post('/questions', question, {
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': bearerAuth(user)
+        }
     })
 }
 
