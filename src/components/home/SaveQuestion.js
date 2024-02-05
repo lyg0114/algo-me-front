@@ -1,8 +1,10 @@
 import React, {useState} from 'react'
-import {Navigate, NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom"; // useNavigate 추가
 import {handleLogError} from "../misc/Helpers";
 import {orderApi} from "../misc/OrderApi";
 import {useAuth} from "../context/AuthContext";
+import SaveCompleteModal from "./modal/SaveCompleteModal";
+
 
 function SaveQuestion() {
     const Auth = useAuth();
@@ -12,7 +14,8 @@ function SaveQuestion() {
     const [fromSource, setFromSource] = useState('');
     const [questionType, setQuestionType] = useState('');
     const [isError, setIsError] = useState(false)
-    const [isSaved, setIsSaved] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,20 +26,30 @@ function SaveQuestion() {
             setUrl("");
             setFromSource("");
             setQuestionType("");
-            setIsSaved(true);
+            openModal();
         } catch (error) {
             handleLogError(error)
             setIsError(true)
         }
     };
 
-    if (isSaved) {
-        alert("등록이 완료되었습니다.");
-        return <Navigate to={'/'} />
-    }
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        navigate('/');
+    };
 
     return (
         <div className="bg-white">
+            <SaveCompleteModal
+                isOpen={isModalOpen}
+                closeModal={closeModal}
+                message="등록이 완료되었습니다."
+            />
+
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                 <form onSubmit={handleSubmit}>
 
