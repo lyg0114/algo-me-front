@@ -22,12 +22,22 @@ function SaveQuestion() {
         e.preventDefault();
         try {
             const response = await orderApi.saveQuestions({title, url, fromSource, questionType}, user);
-            clearInput();
             openModal(response);
         } catch (error) {
             handleLogError(error)
             setIsError(true)
         }
+    };
+
+    const openModal = () => {
+        setMessage("등록이 완료되었습니다.");
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        clearInput();
+        navigate('/');
     };
 
     const clearInput = () => {
@@ -37,16 +47,6 @@ function SaveQuestion() {
         setFromSource("");
         setQuestionType("");
     }
-
-    const openModal = () => {
-        setMessage("등록이 완료되었습니다.");
-        setIsModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-        navigate('/');
-    };
 
     return (
         <div className="bg-white">
