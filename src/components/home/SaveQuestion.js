@@ -9,6 +9,7 @@ import SaveCompleteModal from "./modal/SaveCompleteModal";
 function SaveQuestion() {
     const Auth = useAuth();
     let user = Auth.getUser();
+    const [message, setMessage] = useState('');
     const [title, setTitle] = useState('');
     const [url, setUrl] = useState('');
     const [fromSource, setFromSource] = useState('');
@@ -21,19 +22,24 @@ function SaveQuestion() {
         e.preventDefault();
         try {
             const response = await orderApi.saveQuestions({title, url, fromSource, questionType}, user);
-            setIsError(false);
-            setTitle("");
-            setUrl("");
-            setFromSource("");
-            setQuestionType("");
-            openModal();
+            clearInput();
+            openModal(response);
         } catch (error) {
             handleLogError(error)
             setIsError(true)
         }
     };
 
+    const clearInput = () => {
+        setIsError(false);
+        setTitle("");
+        setUrl("");
+        setFromSource("");
+        setQuestionType("");
+    }
+
     const openModal = () => {
+        setMessage("등록이 완료되었습니다.");
         setIsModalOpen(true);
     };
 
@@ -47,12 +53,11 @@ function SaveQuestion() {
             <SaveCompleteModal
                 isOpen={isModalOpen}
                 closeModal={closeModal}
-                message="등록이 완료되었습니다."
+                message={message}
             />
 
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                 <form onSubmit={handleSubmit}>
-
                     <div className="mb-4">
                         <label htmlFor="questionType" className="block text-sm font-medium text-gray-700">
                             문제유형
@@ -62,7 +67,7 @@ function SaveQuestion() {
                             name="questionType"
                             value={questionType}
                             onChange={(e) => setQuestionType(e.target.value)}
-                            className="mt-1 p-2 w-1/4 border rounded-md" // Adjusted size and added width class
+                            className="mt-1 p-2 w-1/4 border rounded-md"
                             required
                         >
                             <option value="">문제유형 선택</option>
@@ -81,7 +86,7 @@ function SaveQuestion() {
                             name="fromSource"
                             value={fromSource}
                             onChange={(e) => setFromSource(e.target.value)}
-                            className="mt-1 p-2 w-1/4 border rounded-md" // Adjusted size and added width class
+                            className="mt-1 p-2 w-1/4 border rounded-md"
                             required
                         >
                             <option value="">출처 선택</option>
