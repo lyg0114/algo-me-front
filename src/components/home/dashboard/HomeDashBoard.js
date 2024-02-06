@@ -3,12 +3,20 @@ import {orderApi} from "../../misc/OrderApi";
 import {handleLogError} from "../../misc/Helpers";
 import React, {useEffect, useState} from "react";
 import QuestionCard from "../QuestionCard";
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
+import ViewDetailModal from "../modal/ViewDetailModal";
 
 function HomeDashBoard() {
     const Auth = useAuth();
     const [isError, setError] = useState(null);
     const [questions, setQuestions] = useState(null);
+    const [question, setQuestion] = useState(null);
+    const [isViewDetailModalOpen, setIsViewDetailModalOpen] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        fetchQuestions();
+    }, []);
 
     const fetchQuestions = async () => {
         let user = Auth.getUser();
@@ -22,29 +30,36 @@ function HomeDashBoard() {
         }
     };
 
-    const getUserInfo = async (idx) => {
+    const getQuestionDetail = async (idx) => {
         let user = Auth.getUser();
         try {
             const response = await orderApi.getQuestion(user, idx);
-            console.log(response);
+            setQuestion(response.data);
+            setIsViewDetailModalOpen(true);
         } catch (error) {
             handleLogError(error);
             setError(error);
         }
     }
 
-    useEffect(() => {
-        fetchQuestions();
-    }, []);
+    const closeModal = () => {
+        setIsViewDetailModalOpen(false);
+        navigate('/');
+    };
 
     return (
         <div className="bg-white">
+            <ViewDetailModal
+                isOpen={isViewDetailModalOpen}
+                closeModal={closeModal}
+                question={question}
+            />
+
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                 <div className="flex justify-end mb-4">
                     <NavLink className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                              to="/new-question" color='violet' as={NavLink}>REGISTER</NavLink>
                 </div>
-
                 <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                     {questions !== null &&
                         questions.map((question, index) => (
@@ -55,7 +70,7 @@ function HomeDashBoard() {
                                 title={question.title}
                                 reviewCount={question.reviewCount}
                                 registDt={question.registDt}
-                                getUserInfo={getUserInfo}
+                                getQuestionDetail={getQuestionDetail}
                             />
                         ))}
                 </div>

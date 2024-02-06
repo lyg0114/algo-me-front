@@ -2,8 +2,9 @@ import React from 'react'
 
 function QuestionCard(props) {
 
-    const handleClick = (data) => {
-        props.getUserInfo(props.id);
+    const handleClick = (e) => {
+        e.preventDefault()
+        props.getQuestionDetail(props.id);
     }
 
     return (
