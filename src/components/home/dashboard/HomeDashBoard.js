@@ -9,6 +9,7 @@ function HomeDashBoard() {
     const Auth = useAuth();
     const [isError, setError] = useState(null);
     const [questions, setQuestions] = useState(null);
+
     const fetchQuestions = async () => {
         let user = Auth.getUser();
         try {
@@ -21,6 +22,17 @@ function HomeDashBoard() {
         }
     };
 
+    const getUserInfo = async (idx) => {
+        let user = Auth.getUser();
+        try {
+            const response = await orderApi.getQuestion(user, idx);
+            console.log(response);
+        } catch (error) {
+            handleLogError(error);
+            setError(error);
+        }
+    }
+
     useEffect(() => {
         fetchQuestions();
     }, []);
@@ -29,7 +41,8 @@ function HomeDashBoard() {
         <div className="bg-white">
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                 <div className="flex justify-end mb-4">
-                    <NavLink className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" to="/new-question" color='violet' as={NavLink}>REGISTER</NavLink>
+                    <NavLink className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                             to="/new-question" color='violet' as={NavLink}>REGISTER</NavLink>
                 </div>
 
                 <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
@@ -42,6 +55,7 @@ function HomeDashBoard() {
                                 title={question.title}
                                 reviewCount={question.reviewCount}
                                 registDt={question.registDt}
+                                getUserInfo={getUserInfo}
                             />
                         ))}
                 </div>

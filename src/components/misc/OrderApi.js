@@ -6,6 +6,7 @@ export const orderApi = {
     authenticate,
     signup,
     getQuestions,
+    getQuestion,
     saveQuestions
 }
 
@@ -29,6 +30,13 @@ function getQuestions(user) {
     })
 }
 
+function getQuestion(user, idx) {
+    const url = `/questions/${idx}`;
+    return instance.get(url, {
+        headers: {'Authorization': bearerAuth(user)}
+    });
+}
+
 function saveQuestions(question, user) {
     return instance.post('/questions', question, {
         headers: {
@@ -38,13 +46,11 @@ function saveQuestions(question, user) {
     })
 }
 
-// -- Axios
 const instance = axios.create({
     baseURL: config.url.API_BASE_URL
 })
 
 instance.interceptors.request.use(function (config) {
-    // If token is expired, redirect user to login
     if (config.headers.Authorization) {
         const token = config.headers.Authorization.split(' ')[1]
         const data = parseJwt(token)
