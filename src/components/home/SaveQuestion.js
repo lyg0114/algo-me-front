@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {NavLink, useNavigate, useParams} from "react-router-dom"; // useNavigate 추가
-import {handleLogError} from "../misc/Helpers";
-import {orderApi} from "../misc/OrderApi";
+import {handleLogError} from "../util/Helpers";
+import {orderApi} from "../util/OrderApi";
 import {useAuth} from "../context/AuthContext";
 import SaveCompleteModal from "./modal/SaveCompleteModal";
 

@@ -1,6 +1,6 @@
 import {useAuth} from "../../context/AuthContext";
-import {orderApi} from "../../misc/OrderApi";
-import {handleLogError} from "../../misc/Helpers";
+import {orderApi} from "../../util/OrderApi";
+import {handleLogError} from "../../util/Helpers";
 import React, {useEffect, useState} from "react";
 import QuestionCard from "../QuestionCard";
 import {NavLink, useNavigate} from "react-router-dom";

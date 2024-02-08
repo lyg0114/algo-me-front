@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactModal from 'react-modal';
 import {useNavigate} from "react-router-dom";
-import {orderApi} from "../../misc/OrderApi";
-import {handleLogError} from "../../misc/Helpers";
+import {orderApi} from "../../util/OrderApi";
+import {handleLogError} from "../../util/Helpers";
 import {useAuth} from "../../context/AuthContext";
 
 const ViewDetailModal = ({isOpen, closeModalAndGoToHome, question}) => {
