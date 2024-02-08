@@ -30,10 +30,10 @@ function HomeDashBoard() {
         }
     };
 
-    const getQuestionDetail = async (idx) => {
+    const getQuestionDetail = async (id) => {
         let user = Auth.getUser();
         try {
-            const response = await orderApi.getQuestion(user, idx);
+            const response = await orderApi.getQuestion(user, id);
             setQuestion(response.data);
             setIsViewDetailModalOpen(true);
         } catch (error) {
@@ -42,7 +42,7 @@ function HomeDashBoard() {
         }
     }
 
-    const closeModal = () => {
+    const closeModalAndGoToHome = () => {
         setIsViewDetailModalOpen(false);
         navigate('/');
     };
@@ -51,14 +51,14 @@ function HomeDashBoard() {
         <div className="bg-white">
             <ViewDetailModal
                 isOpen={isViewDetailModalOpen}
-                closeModal={closeModal}
+                closeModalAndGoToHome={closeModalAndGoToHome}
                 question={question}
             />
 
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                 <div className="flex justify-end mb-4">
                     <NavLink className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                             to="/new-question" color='violet' as={NavLink}>REGISTER</NavLink>
+                             to="/save-question/" color='violet' as={NavLink}>문제등록</NavLink>
                 </div>
                 <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                     {questions !== null &&

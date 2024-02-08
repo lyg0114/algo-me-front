@@ -7,7 +7,8 @@ export const orderApi = {
     signup,
     getQuestions,
     getQuestion,
-    saveQuestions
+    addQuestion,
+    updateQuestion
 }
 
 function authenticate(username, password) {
@@ -30,15 +31,24 @@ function getQuestions(user) {
     })
 }
 
-function getQuestion(user, idx) {
-    const url = `/questions/${idx}`;
+function getQuestion(user, id) {
+    const url = `/questions/${id}`;
     return instance.get(url, {
         headers: {'Authorization': bearerAuth(user)}
     });
 }
 
-function saveQuestions(question, user) {
+function addQuestion(question, user) {
     return instance.post('/questions', question, {
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': bearerAuth(user)
+        }
+    })
+}
+
+function updateQuestion(id, question, user) {
+    return instance.put(`/questions/${id}`, question, {
         headers: {
             'Content-type': 'application/json',
             'Authorization': bearerAuth(user)

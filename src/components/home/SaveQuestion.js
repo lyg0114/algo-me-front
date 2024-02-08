@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import {NavLink, useNavigate} from "react-router-dom"; // useNavigate 추가
+import React, {useEffect, useState} from 'react'
+import {NavLink, useNavigate, useParams} from "react-router-dom"; // useNavigate 추가
 import {handleLogError} from "../misc/Helpers";
 import {orderApi} from "../misc/OrderApi";
 import {useAuth} from "../context/AuthContext";
@@ -17,11 +17,36 @@ function SaveQuestion() {
     const [isError, setIsError] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
+    const {id} = useParams();
+
+    useEffect(() => {
+        fetchQuestion();
+    }, []);
+
+    const fetchQuestion = async () => {
+        let user = Auth.getUser();
+        if (id) {
+            try {
+                const response = await orderApi.getQuestion(user, id);
+                setQuestionType(response.data.questionType);
+                setFromSource(response.data.fromSource);
+                setTitle(response.data.title);
+                setUrl(response.data.url);
+            } catch (error) {
+                handleLogError(error);
+            }
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        let response;
         try {
-            const response = await orderApi.saveQuestions({title, url, fromSource, questionType}, user);
+            if (id) {
+                response = await orderApi.updateQuestion(id, {title, url, fromSource, questionType}, user);
+            } else {
+                response = await orderApi.addQuestion({title, url, fromSource, questionType}, user);
+            }
             openModal(response);
         } catch (error) {
             handleLogError(error)
@@ -127,17 +152,20 @@ function SaveQuestion() {
                     </div>
 
                     <div className="flex justify-end mb-8">
+
                         <NavLink
                             className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
                             to="/"
                             color='violet'
-                            as={NavLink}>취소</NavLink>
+                            as={NavLink}>취소
+                        </NavLink>
                         <button
                             type="submit"
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                         >
-                            등록
+                            {id ? '수정' : '등록'}
                         </button>
+
                     </div>
                 </form>
             </div>

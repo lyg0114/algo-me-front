@@ -22,14 +22,13 @@ function App() {
                             </Layout>
                         </PrivateRoute>
                     }/>
-                    <Route path="/new-question" element={
+                    <Route path="/save-question/:id?" element={
                         <PrivateRoute>
                             <Layout>
                                 <SaveQuestion/>
                             </Layout>
                         </PrivateRoute>
                     }/>
-
                     <Route path='/signup' element={<Signup/>}/>
                     <Route path='/login' element={<Login/>}/>
                     <Route path="/adminpage" element={<PrivateRoute><AdminPage/></PrivateRoute>}/>
