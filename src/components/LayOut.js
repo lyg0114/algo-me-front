@@ -1,5 +1,5 @@
 import React from 'react';
-import NavBar from "./home/NavBar";
+import NavBar from "./user/home/NavBar";
 
 function Layout({children}) {
     return (

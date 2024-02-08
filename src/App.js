@@ -1,14 +1,12 @@
 import React from 'react'
 import {AuthProvider} from "./components/context/AuthContext";
 import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom'
-import Home from "./components/home/Home";
+import Home from "./components/user/home/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import PrivateRoute from "./components/util/PrivateRoute";
-import UserPage from "./components/user/UserPage";
-import AdminPage from "./components/admin/AdminPage";
 import Layout from "./components/LayOut";
-import SaveQuestion from "./components/home/SaveQuestion";
+import SaveQuestion from "./components/user/home/SaveQuestion";
 
 function App() {
     return (
@@ -31,8 +29,6 @@ function App() {
                     }/>
                     <Route path='/signup' element={<Signup/>}/>
                     <Route path='/login' element={<Login/>}/>
-                    <Route path="/adminpage" element={<PrivateRoute><AdminPage/></PrivateRoute>}/>
-                    <Route path="/userpage" element={<PrivateRoute><UserPage/></PrivateRoute>}/>
                     <Route path="*" element={<Navigate to="/"/>}/>
 
                 </Routes>
