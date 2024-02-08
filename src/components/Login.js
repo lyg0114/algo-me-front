@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { NavLink, Navigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
-import { orderApi } from '../util/OrderApi'
-import { parseJwt, handleLogError } from '../util/Helpers'
+import { useAuth } from './context/AuthContext'
+import { orderApi } from './util/OrderApi'
+import { parseJwt, handleLogError } from './util/Helpers'
 
 function Login() {
 

@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
 import {Navigate, NavLink} from 'react-router-dom'
 import {Button, Form} from 'semantic-ui-react'
-import {useAuth} from '../context/AuthContext'
-import {orderApi} from '../util/OrderApi'
-import {handleLogError, parseJwt} from '../util/Helpers'
+import {useAuth} from './context/AuthContext'
+import {orderApi} from './util/OrderApi'
+import {handleLogError, parseJwt} from './util/Helpers'
 
 function Signup() {
     const Auth = useAuth()
