@@ -8,7 +8,8 @@ export const orderApi = {
     getQuestions,
     getQuestion,
     addQuestion,
-    updateQuestion
+    updateQuestion,
+    deleteQuestion
 }
 
 function authenticate(username, password) {
@@ -54,6 +55,13 @@ function updateQuestion(id, question, user) {
             'Authorization': bearerAuth(user)
         }
     })
+}
+
+function deleteQuestion(user, id) {
+    const url = `/questions/${id}`;
+    return instance.delete(url, {
+        headers: {'Authorization': bearerAuth(user)}
+    });
 }
 
 const instance = axios.create({

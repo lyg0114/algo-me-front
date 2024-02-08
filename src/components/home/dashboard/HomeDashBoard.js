@@ -44,6 +44,7 @@ function HomeDashBoard() {
 
     const closeModalAndGoToHome = () => {
         setIsViewDetailModalOpen(false);
+        fetchQuestions();
         navigate('/');
     };
 

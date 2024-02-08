@@ -1,12 +1,27 @@
 import React from 'react';
 import ReactModal from 'react-modal';
 import {useNavigate} from "react-router-dom";
+import {orderApi} from "../../misc/OrderApi";
+import {handleLogError} from "../../misc/Helpers";
+import {useAuth} from "../../context/AuthContext";
 
 const ViewDetailModal = ({isOpen, closeModalAndGoToHome, question}) => {
     const navigate = useNavigate();
+    const Auth = useAuth();
 
     const closeModalAndGoToUpdate = () => {
         navigate('/save-question/' + question.id);
+    }
+
+    const closeModalAndDeleteQuestion = async () => {
+        let user = Auth.getUser();
+        try {
+            const response = await orderApi.deleteQuestion(user, question.id);
+            alert("삭제가 완료되었습니다.");
+            closeModalAndGoToHome();
+        } catch (error) {
+            handleLogError(error);
+        }
     }
 
     if (question == null) {
@@ -60,8 +75,14 @@ const ViewDetailModal = ({isOpen, closeModalAndGoToHome, question}) => {
                         수정
                     </button>
                     <button
-                        onClick={closeModalAndGoToHome}
+                        onClick={closeModalAndDeleteQuestion}
                         className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
+                    >
+                        삭제
+                    </button>
+                    <button
+                        onClick={closeModalAndGoToHome}
+                        className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
                     >
                         Close
                     </button>
