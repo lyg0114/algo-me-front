@@ -65,13 +65,13 @@ function HomeDashBoard() {
                              to="/save-question/" color='violet' as={NavLink}>문제등록</NavLink>
                 </div>
 
-                <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                    <InfiniteScroll
-                        dataLength={questions.length}
-                        next={fetchQuestions}
-                        hasMore={true}
-                        loader={<h2>Loading...</h2>}
-                    >
+                <InfiniteScroll
+                    dataLength={questions.length}
+                    next={fetchQuestions}
+                    hasMore={true}
+                    loader={<h2>Loading...</h2>}
+                >
+                    <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                         {questions.map((question, index) => (
                             <QuestionCard
                                 key={index}
@@ -83,8 +83,8 @@ function HomeDashBoard() {
                                 getQuestionDetail={getQuestionDetail}
                             />
                         ))}
-                    </InfiniteScroll>
-                </div>
+                    </div>
+                </InfiniteScroll>
             </div>
         </div>
     );
