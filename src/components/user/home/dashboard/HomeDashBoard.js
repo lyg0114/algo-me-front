@@ -14,6 +14,9 @@ function HomeDashBoard() {
     const [isViewDetailModalOpen, setIsViewDetailModalOpen] = useState(false);
     const navigate = useNavigate();
     const [questions, setQuestions] = useState([]);
+    const [hasMore, setHasMore] = useState(true);
+    const [page, setPage] = useState(0);
+    const [size, setSize] = useState(12);
 
     useEffect(() => {
         fetchQuestions();
@@ -22,14 +25,18 @@ function HomeDashBoard() {
     const fetchQuestions = async () => {
         let user = Auth.getUser();
         try {
-            const response = await orderApi.getQuestions(user);
+            const response = await orderApi.getQuestions(user, page, size);
             const result = await response.data.content;
+            setHasMore(!response.data.last);
             setTimeout(() => {
                 setQuestions(prevItems => prevItems.concat(result));
-            }, 1500);
+            }, 0);
+
         } catch (error) {
             handleLogError(error);
             setError(error);
+        } finally {
+            setPage(page + 1);
         }
     };
 
@@ -47,7 +54,7 @@ function HomeDashBoard() {
 
     const closeModalAndGoToHome = () => {
         setIsViewDetailModalOpen(false);
-        fetchQuestions();
+        // fetchQuestions();
         navigate('/');
     };
 
@@ -68,7 +75,7 @@ function HomeDashBoard() {
                 <InfiniteScroll
                     dataLength={questions.length}
                     next={fetchQuestions}
-                    hasMore={true}
+                    hasMore={hasMore}
                     loader={<h2>Loading...</h2>}
                 >
                     <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
