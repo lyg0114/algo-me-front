@@ -12,7 +12,7 @@ function Home() {
     }
 
     return (
-        <NavLink to="/signup" color='violet' as={NavLink}/>
+        <NavLink to="/login" color='violet' as={NavLink}/>
     )
 }
 
