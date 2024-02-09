@@ -25,11 +25,15 @@ function signup(user) {
     })
 }
 
-function getQuestions(user) {
+function getQuestions(user, page, size) {
     const url = '/questions';
     return instance.get(url, {
-        headers: {'Authorization': bearerAuth(user)}
-    })
+        headers: {'Authorization': bearerAuth(user)},
+        params: {
+            page: page,
+            size: size
+        }
+    });
 }
 
 function getQuestion(user, id) {
