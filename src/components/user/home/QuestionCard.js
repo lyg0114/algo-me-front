@@ -1,18 +1,36 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import BojImage from '../../../images/boj-logo.png'
+import CodilityImage from '../../../images/codility-logo.jpg'
+import leetCodeImage from '../../../images/leetCode-logo.png'
+import HackerRankImage from '../../../images/hackerRank-logo.png'
+import ProgrammersImage from '../../../images/programmers-logo.png'
+
 
 function QuestionCard(props) {
 
+    const [imageUrl, setImageUrl] = useState(null);
     const handleClick = (e) => {
         e.preventDefault()
         props.getQuestionDetail(props.id);
     }
+
+    useEffect(() => {
+        switch (props.fromSource) {
+            case 'LEETCODE': setImageUrl(leetCodeImage); break;
+            case 'HACKERRANK': setImageUrl(HackerRankImage); break;
+            case 'CODILITY': setImageUrl(CodilityImage); break;
+            case 'BAEKJOON': setImageUrl(BojImage); break;
+            case 'PROGRAMMERS': setImageUrl(ProgrammersImage); break;
+            default:
+        }
+    }, []);
 
     return (
         <div key={props.id} onClick={handleClick} className="group relative">
             <div
                 className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                 <img
-                    src={"https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"}
+                    src={imageUrl}
                     alt={""}
                     className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                 />

@@ -85,6 +85,7 @@ function HomeDashBoard() {
                                 id={question.id}
                                 img={question.img}
                                 title={question.title}
+                                fromSource={question.fromSource}
                                 reviewCount={question.reviewCount}
                                 registDt={question.registDt}
                                 getQuestionDetail={getQuestionDetail}
