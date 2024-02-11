@@ -1,6 +1,6 @@
 const prod = {
     url: {
-        API_BASE_URL: 'http://localhost:3000',
+        API_BASE_URL: 'http://lizcalendal.com:3000',
     }
 }
 

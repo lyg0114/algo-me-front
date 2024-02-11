@@ -8,6 +8,6 @@ yarn build
 
 docker build -t ${IMAGE_NAME} .
 docker tag ${IMAGE_NAME}:latest whdnseowkd/${IMAGE_NAME}:${TAG_VERSION}
-docker run -p 8080:80 ${IMAGE_NAME}
+docker push whdnseowkd/${IMAGE_NAME}:${TAG_VERSION}
 
 
