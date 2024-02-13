@@ -1,5 +1,5 @@
 import {useAuth} from "../../../context/AuthContext";
-import {orderApi} from "../../../util/OrderApi";
+import {backendApi} from "../../../util/BackendApi";
 import {handleLogError} from "../../../util/Helpers";
 import React, {useEffect, useState} from "react";
 import {NavLink, useNavigate} from "react-router-dom";
@@ -25,7 +25,7 @@ function HomeDashBoard() {
     const fetchQuestions = async () => {
         let user = Auth.getUser();
         try {
-            const response = await orderApi.getQuestions(user, page, size);
+            const response = await backendApi.getQuestions(user, page, size);
             const result = await response.data.content;
             setHasMore(!response.data.last);
             setTimeout(() => {
@@ -43,7 +43,7 @@ function HomeDashBoard() {
     const getQuestionDetail = async (id) => {
         let user = Auth.getUser();
         try {
-            const response = await orderApi.getQuestion(user, id);
+            const response = await backendApi.getQuestion(user, id);
             setQuestion(response.data);
             setIsViewDetailModalOpen(true);
         } catch (error) {

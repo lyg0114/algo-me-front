@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {NavLink, useNavigate, useParams} from "react-router-dom"; // useNavigate 추가
 import {handleLogError} from "../../util/Helpers";
-import {orderApi} from "../../util/OrderApi";
+import {backendApi} from "../../util/BackendApi";
 import {useAuth} from "../../context/AuthContext";
 import SaveCompleteModal from "./modal/SaveCompleteModal";
 
@@ -27,7 +27,7 @@ function SaveQuestion() {
         let user = Auth.getUser();
         if (id) {
             try {
-                const response = await orderApi.getQuestion(user, id);
+                const response = await backendApi.getQuestion(user, id);
                 setQuestionType(response.data.questionType);
                 setFromSource(response.data.fromSource);
                 setTitle(response.data.title);
@@ -43,9 +43,9 @@ function SaveQuestion() {
         let response;
         try {
             if (id) {
-                response = await orderApi.updateQuestion(id, {title, url, fromSource, questionType}, user);
+                response = await backendApi.updateQuestion(id, {title, url, fromSource, questionType}, user);
             } else {
-                response = await orderApi.addQuestion({title, url, fromSource, questionType}, user);
+                response = await backendApi.addQuestion({title, url, fromSource, questionType}, user);
             }
             openModal(response);
         } catch (error) {

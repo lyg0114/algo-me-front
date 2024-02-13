@@ -2,7 +2,7 @@ import axios from 'axios'
 import {config} from '../../Constants'
 import {parseJwt} from './Helpers'
 
-export const orderApi = {
+export const backendApi = {
     authenticate,
     signup,
     getQuestions,

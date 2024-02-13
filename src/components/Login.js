@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { NavLink, Navigate } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
-import { orderApi } from './util/OrderApi'
+import { backendApi } from './util/BackendApi'
 import { parseJwt, handleLogError } from './util/Helpers'
 
 function Login() {
@@ -29,7 +29,7 @@ function Login() {
     }
 
     try {
-      const response = await orderApi.authenticate(username, password)
+      const response = await backendApi.authenticate(username, password)
       const  accessToken  = response.data.token;
       const data = parseJwt(accessToken)
       const authenticatedUser = { data, accessToken }

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactModal from 'react-modal';
 import {useNavigate} from "react-router-dom";
-import {orderApi} from "../../../util/OrderApi";
+import {backendApi} from "../../../util/BackendApi";
 import {handleLogError} from "../../../util/Helpers";
 import {useAuth} from "../../../context/AuthContext";
 
@@ -16,7 +16,7 @@ const ViewDetailModal = ({isOpen, closeModalAndGoToHome, question}) => {
     const closeModalAndDeleteQuestion = async () => {
         let user = Auth.getUser();
         try {
-            const response = await orderApi.deleteQuestion(user, question.id);
+            const response = await backendApi.deleteQuestion(user, question.id);
             alert("삭제가 완료되었습니다.");
             closeModalAndGoToHome();
         } catch (error) {

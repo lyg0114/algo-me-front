@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {Navigate, NavLink} from 'react-router-dom'
 import {Button, Form} from 'semantic-ui-react'
 import {useAuth} from './context/AuthContext'
-import {orderApi} from './util/OrderApi'
+import {backendApi} from './util/BackendApi'
 import {handleLogError, parseJwt} from './util/Helpers'
 
 function Signup() {
@@ -40,7 +40,7 @@ function Signup() {
         const user = {username, password, name, email}
 
         try {
-            const response = await orderApi.signup(user)
+            const response = await backendApi.signup(user)
             const {accessToken} = response.data
             const data = parseJwt(accessToken)
             const authenticatedUser = {data, accessToken}
