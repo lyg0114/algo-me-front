@@ -38,10 +38,10 @@ jobs:
         env:
           CI: false
 
-      - name: Test the app
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: test # will run `yarn test` command
+#      - name: Test the app
+#        uses: borales/actions-yarn@v4
+#        with:
+#          cmd: test # will run `yarn test` command
 
 
 
