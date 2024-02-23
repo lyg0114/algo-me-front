@@ -25,13 +25,14 @@ function signup(user) {
     })
 }
 
-function getQuestions(user, page, size) {
+function getQuestions(user, page, size, searchTerm) {
     const url = '/questions';
     return instance.get(url, {
         headers: {'Authorization': bearerAuth(user)},
         params: {
             page: page,
-            size: size
+            size: size,
+            searchTerm: searchTerm
         }
     });
 }

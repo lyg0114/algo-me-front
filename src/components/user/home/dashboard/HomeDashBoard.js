@@ -17,26 +17,34 @@ function HomeDashBoard() {
     const [hasMore, setHasMore] = useState(true);
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(12);
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         fetchQuestions();
-    }, []);
+    }, []); // useEffect를 searchTerm에 의존하도록 수정
 
     const fetchQuestions = async () => {
         let user = Auth.getUser();
         try {
-            const response = await backendApi.getQuestions(user, page, size);
-            const result = await response.data.content;
-            setHasMore(!response.data.last);
-            setTimeout(() => {
-                setQuestions(prevItems => prevItems.concat(result));
-            }, 0);
+            const response = await backendApi.getQuestions(user, page, size, searchTerm);
+            if (response.data != "") {
+                const result = await response.data.content;
+                setHasMore(!response.data.last);
+                setTimeout(() => {
+                    setQuestions(prevItems => prevItems.concat(result));
+                }, 0);
+                setPage(page + 1);
 
+            } else {
+                console.log("#######")
+                console.log("empty")
+                console.log("#######")
+            }
         } catch (error) {
             handleLogError(error);
             setError(error);
         } finally {
-            setPage(page + 1);
+            console.log(page)
         }
     };
 
@@ -50,12 +58,18 @@ function HomeDashBoard() {
             handleLogError(error);
             setError(error);
         }
-    }
+    };
 
     const closeModalAndGoToHome = () => {
         setIsViewDetailModalOpen(false);
-        // fetchQuestions();
         navigate('/');
+    };
+
+    const handleSearch = () => {
+        console.log("call - handleSearch");
+        setPage(0); // 페이지 초기화
+        setQuestions([]); // 질문 목록 초기화
+        fetchQuestions(); // 새로운 검색어로 데이터 가져오기
     };
 
     return (
@@ -67,9 +81,31 @@ function HomeDashBoard() {
             />
 
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-                <div className="flex justify-end mb-4">
-                    <NavLink className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                             to="/save-question/" color='violet' as={NavLink}>문제등록</NavLink>
+                <div className="flex justify-between items-center mb-4">
+                    <div className="flex items-center">
+                        <input
+                            type="text"
+                            placeholder="검색어를 입력하세요"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="mr-2 px-4 py-2 border rounded focus:outline-none focus:border-blue-500"
+                            style={{width: "400px"}}
+                        />
+                        <button
+                            onClick={handleSearch}
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        >
+                            검색
+                        </button>
+                    </div>
+                    <NavLink
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        to="/save-question/"
+                        color="violet"
+                        as={NavLink}
+                    >
+                        문제등록
+                    </NavLink>
                 </div>
 
                 <InfiniteScroll
@@ -92,10 +128,11 @@ function HomeDashBoard() {
                             />
                         ))}
                     </div>
+
                 </InfiniteScroll>
             </div>
         </div>
     );
 }
 
-export default HomeDashBoard
+export default HomeDashBoard;
