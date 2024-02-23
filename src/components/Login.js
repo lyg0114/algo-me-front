@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { NavLink, Navigate } from 'react-router-dom'
-import { useAuth } from './context/AuthContext'
-import { backendApi } from './util/BackendApi'
-import { parseJwt, handleLogError } from './util/Helpers'
+import React, {useState} from 'react'
+import {Navigate} from 'react-router-dom'
+import {useAuth} from './context/AuthContext'
+import {backendApi} from './util/BackendApi'
+import {handleLogError, parseJwt} from './util/Helpers'
 
 function Login() {
 
