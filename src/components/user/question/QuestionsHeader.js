@@ -3,6 +3,7 @@ import SideMenu from "../../common/SideMenu";
 import SearchIcon from "../../assets/svg/SearchIcon";
 import QuestionPlusIcon from "../../assets/svg/QuestionPlusIcon";
 import React from "react";
+import {useQuestion} from "./QuestionsContext";
 
 const searchInputStyle = {
     borderTopLeftRadius: '40px',
@@ -26,8 +27,10 @@ const searchButtonStyle = {
     borderColor: '#303030',
 };
 
-
 function QuestionsHeader() {
+    let useQuestion1 = useQuestion();
+    console.log(useQuestion1.getQuestion());
+
     return (
         <>
             <Row className="justify-content-between pl-3 pr-3 pt-4 pb-4 mb-2 fixed-top bg-black">

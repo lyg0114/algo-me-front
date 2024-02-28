@@ -2,6 +2,7 @@ import React from "react";
 import {Button, Col, Row} from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import ListPagination from "../../common/ListPagination";
+import {useQuestionContext} from "./QuestionsContext";
 
 
 function QuestionsContent() {
