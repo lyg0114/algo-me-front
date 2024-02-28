@@ -1,11 +1,11 @@
 import {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import ListIcon from "../svg/ListIcon";
+import ListIcon from "../assets/svg/ListIcon";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import HomeIcon from "../svg/HomeIcon";
-import DashBoardIcon from "../svg/DashBoardIcon";
+import HomeIcon from "../assets/svg/HomeIcon";
+import DashBoardIcon from "../assets/svg/DashBoardIcon";
 
 
 const offcanvasStyle = {
@@ -14,7 +14,7 @@ const offcanvasStyle = {
 };
 const textStyle = {color: '#bfbfbf'};
 
-function ResponsiveSidebar() {
+function SideMenu() {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -54,4 +54,4 @@ function ResponsiveSidebar() {
     );
 }
 
-export default ResponsiveSidebar;
+export default SideMenu;

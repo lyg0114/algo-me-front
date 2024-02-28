@@ -6,7 +6,7 @@ const buttonStyle = {
     marginLeft: '7px'
 }
 
-function QuestionSaveContents() {
+function QuestionSaveContent() {
     return (
         <>
             {/* 내용 부분 */}
@@ -69,4 +69,4 @@ function QuestionSaveContents() {
     );
 }
 
-export default QuestionSaveContents;
+export default QuestionSaveContent;

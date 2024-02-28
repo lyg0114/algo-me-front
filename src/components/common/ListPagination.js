@@ -17,7 +17,7 @@ const activePageStyle = {
     marginLeft: '6px'
 };
 
-function PaginationBasic() {
+function ListPagination() {
     let active = 5;
     let items = [];
     for (let number = 1; number <= 10; number++) {
@@ -38,4 +38,4 @@ function PaginationBasic() {
     )
 };
 
-export default PaginationBasic;
+export default ListPagination;

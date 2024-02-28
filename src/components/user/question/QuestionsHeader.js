@@ -1,7 +1,7 @@
 import {Button, Col, Container, Row} from "react-bootstrap";
-import ResponsiveSidebar from "../../ref/ResponsiveSidebar";
-import SearchIcon from "../../svg/SearchIcon";
-import QuestionPlusIcon from "../../svg/QuestionPlusIcon";
+import SideMenu from "../../common/SideMenu";
+import SearchIcon from "../../assets/svg/SearchIcon";
+import QuestionPlusIcon from "../../assets/svg/QuestionPlusIcon";
 import React from "react";
 
 const searchInputStyle = {
@@ -27,13 +27,13 @@ const searchButtonStyle = {
 };
 
 
-function QuestionListHeader() {
+function QuestionsHeader() {
     return (
         <>
             <Row className="justify-content-between pl-3 pr-3 pt-4 pb-4 mb-2 fixed-top bg-black">
                 {/* 사이드 바 */}
                 <Col xs={3} sm={3} md={3} lg={3} xl={3} xxl={3}>
-                    <ResponsiveSidebar/>
+                    <SideMenu/>
                 </Col>
 
                 {/* 검색 창 */}
@@ -71,4 +71,4 @@ function QuestionListHeader() {
     );
 }
 
-export default QuestionListHeader;
+export default QuestionsHeader;

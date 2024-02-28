@@ -1,10 +1,10 @@
 import React from "react";
 import {Button, Col, Row} from "react-bootstrap";
 import Card from "react-bootstrap/Card";
-import PaginationBasic from "../../PaginationBasic";
+import ListPagination from "../../common/ListPagination";
 
 
-function QuestionListContents() {
+function QuestionsContent() {
     return (
         <>
             {/* 내용 부분 */}
@@ -31,7 +31,7 @@ function QuestionListContents() {
             <Row className='mt-4'>
                 <Col></Col>
                 <Col xs='auto' md='auto' lg='auto' xl='auto' xxl='auto'>
-                    <PaginationBasic/>
+                    <ListPagination/>
                 </Col>
                 <Col></Col>
             </Row>
@@ -41,4 +41,4 @@ function QuestionListContents() {
     );
 }
 
-export default QuestionListContents;
+export default QuestionsContent;

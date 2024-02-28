@@ -1,17 +1,17 @@
 import React from "react";
 import {Container} from "react-bootstrap";
 import QuestionSaveHeader from "./QuestionSaveHeader";
-import QuestionSaveContents from "./QuestionSaveContents";
+import QuestionSaveContent from "./QuestionSaveContent";
 
-function QuestionSave() {
+function QuestionSaveLayout() {
     return (
         <>
             <Container fluid className='bg-black'>
                 <QuestionSaveHeader/>
-                <QuestionSaveContents/>
+                <QuestionSaveContent/>
             </Container>
         </>
     );
 }
 
-export default QuestionSave;
+export default QuestionSaveLayout;
