@@ -28,9 +28,6 @@ const searchButtonStyle = {
 };
 
 function QuestionsHeader() {
-    let useQuestion1 = useQuestion();
-    console.log(useQuestion1.getQuestion());
-
     return (
         <>
             <Row className="justify-content-between pl-3 pr-3 pt-4 pb-4 mb-2 fixed-top bg-black">
