@@ -7,12 +7,10 @@ import {QuestionsProvider} from "./QuestionsContext";
 
 function QuestionsLayout() {
     return (
-        <QuestionsProvider>
-            <Container fluid style={{background: '#0f0f0f'}} className='bg-black'>
-                <QuestionsHeader/>
-                <QuestionsContent/>
-            </Container>
-        </QuestionsProvider>
+        <Container fluid style={{background: '#0f0f0f'}} className='bg-black'>
+            <QuestionsHeader/>
+            <QuestionsContent/>
+        </Container>
     );
 }
 
