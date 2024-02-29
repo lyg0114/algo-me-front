@@ -17,23 +17,44 @@ const activePageStyle = {
     marginLeft: '6px'
 };
 
-function ListPagination() {
-    let active = 5;
+const nextPrevLinkStyle = {
+    color: 'black',
+    background: '#c2ccc3',
+    borderRadius: '10px',
+    borderColor: '#303030',
+    marginLeft: '6px'
+};
+
+function ListPagination({number, pageCount, onPageClick, startPage, endPage, first, last}) {
+    console.log({number, pageCount, onPageClick, startPage, endPage, first, last});
+    let active = number;
     let items = [];
-    for (let number = 1; number <= 10; number++) {
+
+    for (let index = startPage - 1; index < endPage; index++) {
         items.push(
             <Pagination.Item
-                key={number}
-                linkStyle={number === active ? activePageStyle : pageStyle}
+                key={index}
+                onClick={() => onPageClick(index)}
+                linkStyle={index === active ? activePageStyle : pageStyle}
             >
-                {number}
+                {index + 1}
             </Pagination.Item>,
         );
     }
 
     return (
         <div>
-            <Pagination>{items}</Pagination>
+            <Pagination>
+                {(startPage > 10) && <Pagination.Prev
+                    onClick={() => onPageClick(startPage - 2)}
+                    linkStyle={nextPrevLinkStyle}
+                />}
+                {items}
+                {!last && <Pagination.Next
+                    onClick={() => onPageClick(endPage)}
+                    linkStyle={nextPrevLinkStyle}
+                />}
+            </Pagination>
         </div>
     )
 };
