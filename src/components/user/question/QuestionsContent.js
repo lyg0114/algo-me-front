@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Row} from "react-bootstrap";
-import Card from "react-bootstrap/Card";
 import {backendApi} from "../../util/BackendApi";
 import {useAuth} from "../../context/AuthContext";
 import {handleLogError} from "../../util/Helpers";
@@ -8,6 +7,7 @@ import ListPagination from "../../common/ListPagination";
 import SideMenu from "../../common/SideMenu";
 import SearchIcon from "../../assets/svg/SearchIcon";
 import QuestionPlusIcon from "../../assets/svg/QuestionPlusIcon";
+import QuestionCard from "./QuestionCard";
 
 const searchInputStyle = {
     borderTopLeftRadius: '40px',
@@ -39,7 +39,7 @@ function QuestionsContent() {
     const [number, setNumber] = useState(0);
     const [startPage, setStartPage] = useState(1);
     const [endPage, setEndPage] = useState(0);
-    const [itemsPerPage, setItemsPerPage] = useState(8);
+    const [itemsPerPage, setItemsPerPage] = useState(16);
     const [first, setFirst] = useState(true);
     const [last, setLast] = useState(false);
     const [searchInput, setSearchInput] = useState("");
@@ -67,10 +67,17 @@ function QuestionsContent() {
             const currentPage = response.data.number;
             const totalPageCount = response.data.totalPages;
 
-            const tmpStartPage = Math.floor((currentPage) / itemsPerPage) * itemsPerPage + 1;
+
+            // const tmpStartPage = Math.floor((currentPage) / itemsPerPage) * itemsPerPage + 1;
+            // setStartPage(tmpStartPage)
+            // const tmpEndPage = Math.min(tmpStartPage + itemsPerPage - 1, totalPageCount)
+            // setEndPage(tmpEndPage);
+
+            const tmpStartPage = Math.floor((currentPage) / 10) * 10 + 1;
             setStartPage(tmpStartPage)
-            const tmpEndPage = Math.min(tmpStartPage + itemsPerPage - 1, totalPageCount)
+            const tmpEndPage = Math.min(tmpStartPage + 10 - 1, totalPageCount)
             setEndPage(tmpEndPage);
+
         } catch (error) {
             handleLogError(error);
             setError(error);
@@ -136,52 +143,48 @@ function QuestionsContent() {
                 <Col className='p-3 mb-2'>Empty</Col>
             </Row>
 
-            {/* 내용 부분 */}
-            <Row xs={1} md={2} lg={3} xl={4} xxl={4} className="g-4 mt-3 pl-5 pr-5">
-                {questions.length === 0 ? (
+            {questions.length === 0 ? (
+                <Row className="g-4 mt-3 pl-5 pr-5">
                     <Col>
                         <p style={{color: '#bfbfbf', textAlign: 'center'}}>데이터가 존재하지 않습니다.</p>
                     </Col>
-                ) : (
-                    questions.map((question, idx) => (
+                </Row>
+            ) : (
+                <Row xs={1} md={2} lg={3} xl={4} xxl={4} className="g-4 mt-3 pl-5 pr-5">
+                    {questions.map((question, idx) => (
                         <Col key={idx}>
-                            <Card style={{borderColor: '#121212'}}>
-                                <Card.Img variant="top"
-                                          src="https://images.unsplash.com/photo-1517404215738-15263e9f9178?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dXJsfGVufDB8fDB8fHww"/>
-                                <Card.Body style={{background: '#0f0f0f', color: '#bfbfbf'}}>
-                                    <Card.Title>{question.title}</Card.Title>
-                                    <Card.Text>
-                                        Some quick example text to build on the card title and make up the
-                                        bulk of the card's content.
-                                    </Card.Text>
-                                    <Button variant="primary">Go somewhere</Button>
-                                </Card.Body>
-                            </Card>
+                            <QuestionCard
+                                id={question.id}
+                                title={question.title}
+                                fromSource={question.fromSource}
+                                reviewCount={question.reviewCount}
+                                registDt={question.registDt}
+                            />
                         </Col>
-                    ))
-                )}
-            </Row>
-
+                    ))}
+                </Row>
+            )}
 
             {/* 페이지네이션*/}
             <Row className='mt-4'>
                 <Col></Col>
                 <Col xs='auto' md='auto' lg='auto' xl='auto' xxl='auto'>
-                    <ListPagination
-                        number={number}
-                        pageCount={pageCount}
-                        onPageClick={handlePageClick}
-                        startPage={startPage}
-                        endPage={endPage}
-                        first={first}
-                        last={last}
-                    />
+                    {questions.length > 0 && (
+                        <ListPagination
+                            number={number}
+                            pageCount={pageCount}
+                            onPageClick={handlePageClick}
+                            startPage={startPage}
+                            endPage={endPage}
+                            first={first}
+                            last={last}
+                        />
+                    )}
                 </Col>
                 <Col></Col>
             </Row>
             <Row className='mt-4 md-4'>
             </Row>
-
         </>
     );
 }

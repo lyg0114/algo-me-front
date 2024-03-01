@@ -37,11 +37,11 @@ function SideMenu() {
                                     <HomeIcon style={{width: '20px', height: '20px', color: '#bfbfbf'}}/> </Col>
                                 <Col xs={9} style={textStyle}> HOME </Col>
                             </Row>
-                            <Row className='mb-2'>
-                                <Col xs={3}>
-                                    <DashBoardIcon style={{width: '20px', height: '20px', color: '#bfbfbf'}}/> </Col>
-                                <Col xs={9} style={textStyle}> DASHBOAD </Col>
-                            </Row>
+                            {/*<Row className='mb-2'>*/}
+                            {/*    <Col xs={3}>*/}
+                            {/*        <DashBoardIcon style={{width: '20px', height: '20px', color: '#bfbfbf'}}/> </Col>*/}
+                            {/*    <Col xs={9} style={textStyle}> DASHBOAD </Col>*/}
+                            {/*</Row>*/}
                         </Offcanvas.Body>
                     </Offcanvas>
                 </Col>
