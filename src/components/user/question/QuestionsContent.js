@@ -10,7 +10,6 @@ function QuestionsContent() {
     const Auth = useAuth();
     const [isError, setError] = useState(null);
     const [questions, setQuestions] = useState([]);
-
     const [pageCount, setPageCount] = useState(0);
     const [number, setNumber] = useState(0);
     const [startPage, setStartPage] = useState(1);
@@ -54,7 +53,6 @@ function QuestionsContent() {
     };
 
     const handlePageClick = async (index) => {
-        console.log(index);
         fetchQuestions(index, itemsPerPage);
     };
 
