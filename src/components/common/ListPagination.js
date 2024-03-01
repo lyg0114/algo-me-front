@@ -25,7 +25,6 @@ const nextPrevLinkStyle = {
 };
 
 function ListPagination({number, pageCount, onPageClick, startPage, endPage, first, last}) {
-    console.log({number, pageCount, onPageClick, startPage, endPage, first, last});
     let active = number;
     let items = [];
     let isLastSection = false;
