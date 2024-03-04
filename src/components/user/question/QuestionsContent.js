@@ -9,6 +9,7 @@ import SearchIcon from "../../assets/svg/SearchIcon";
 import QuestionPlusIcon from "../../assets/svg/QuestionPlusIcon";
 import QuestionCard from "./QuestionCard";
 import PaginationUtil from "../../util/PaginationUtil";
+import {NavLink} from "react-router-dom";
 
 const searchInputStyle = {
     borderTopLeftRadius: '40px',
@@ -119,9 +120,11 @@ function QuestionsContent() {
 
                 {/* 문제 등록 */}
                 <Col xs={3} sm={2} md={1} lg={1} xl={1} xxl={1}>
-                    <Button variant="primary" className='bg-black border-black'>
-                        <QuestionPlusIcon style={{width: '25px', height: '25px', color: '#bfbfbf'}}/>
-                    </Button>
+                    <NavLink to="/save-question/" color='violet' as={NavLink}>
+                        <Button variant="primary" className='bg-black border-black'>
+                            <QuestionPlusIcon style={{width: '25px', height: '25px', color: '#bfbfbf'}}/>
+                        </Button>
+                    </NavLink>
                 </Col>
             </Row>
 
