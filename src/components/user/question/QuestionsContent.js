@@ -35,48 +35,46 @@ function QuestionsContent() {
     const Auth = useAuth();
     const [isError, setError] = useState(null);
     const [questions, setQuestions] = useState([]);
+    const [searchInput, setSearchInput] = useState("");
+
+
     const [pageCount, setPageCount] = useState(0);
     const [number, setNumber] = useState(0);
     const [startPage, setStartPage] = useState(1);
     const [endPage, setEndPage] = useState(0);
-    const [itemsPerPage, setItemsPerPage] = useState(16);
-    const [first, setFirst] = useState(true);
-    const [last, setLast] = useState(false);
-    const [searchInput, setSearchInput] = useState("");
+
+    const itemsPerPage = 16;
+    const sectionSize = 10;
 
     useEffect(() => {
         fetchQuestions(0, itemsPerPage);
-    }, [itemsPerPage])
+    }, [])
 
     const fetchQuestions = async (page, size) => {
         let user = Auth.getUser();
         try {
             const response = await backendApi.getQuestions(user, page, size, searchInput);
-
             if (response.data === "") {
                 setQuestions([]);
                 return;
             }
 
             setQuestions(response.data.content);
+
             setPageCount(response.data.totalPages - 1);
             setNumber(response.data.number);
-            setFirst(response.data.first)
-            setLast(response.data.last)
 
+
+
+            // 백엔드로 보낼 로직
             const currentPage = response.data.number;
             const totalPageCount = response.data.totalPages;
-
-
-            // const tmpStartPage = Math.floor((currentPage) / itemsPerPage) * itemsPerPage + 1;
-            // setStartPage(tmpStartPage)
-            // const tmpEndPage = Math.min(tmpStartPage + itemsPerPage - 1, totalPageCount)
-            // setEndPage(tmpEndPage);
-
-            const tmpStartPage = Math.floor((currentPage) / 10) * 10 + 1;
+            const tmpStartPage = Math.floor((currentPage) / sectionSize) * sectionSize + 1;
             setStartPage(tmpStartPage)
-            const tmpEndPage = Math.min(tmpStartPage + 10 - 1, totalPageCount)
+            const tmpEndPage = Math.min(tmpStartPage + sectionSize - 1, totalPageCount)
             setEndPage(tmpEndPage);
+            // 백엔드로 보낼 로직
+
 
         } catch (error) {
             handleLogError(error);
@@ -91,9 +89,7 @@ function QuestionsContent() {
 
     const handleSearchButtonClick = (e) => {
         e.preventDefault();
-        console.log("Search button clicked!");
         fetchQuestions(0, itemsPerPage);
-        // You can add your search logic here
     };
 
     return (
@@ -176,8 +172,6 @@ function QuestionsContent() {
                             onPageClick={handlePageClick}
                             startPage={startPage}
                             endPage={endPage}
-                            first={first}
-                            last={last}
                         />
                     )}
                 </Col>

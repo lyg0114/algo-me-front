@@ -24,7 +24,7 @@ const nextPrevLinkStyle = {
     marginLeft: '6px'
 };
 
-function ListPagination({number, pageCount, onPageClick, startPage, endPage, first, last}) {
+function ListPagination({number, pageCount, onPageClick, startPage, endPage}) {
     let active = number;
     let items = [];
     let isLastSection = false;
