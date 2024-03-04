@@ -8,6 +8,7 @@ import SideMenu from "../../common/SideMenu";
 import SearchIcon from "../../assets/svg/SearchIcon";
 import QuestionPlusIcon from "../../assets/svg/QuestionPlusIcon";
 import QuestionCard from "./QuestionCard";
+import PaginationUtil from "../../util/PaginationUtil";
 
 const searchInputStyle = {
     borderTopLeftRadius: '40px',
@@ -37,12 +38,10 @@ function QuestionsContent() {
     const [questions, setQuestions] = useState([]);
     const [searchInput, setSearchInput] = useState("");
 
-
     const [pageCount, setPageCount] = useState(0);
     const [number, setNumber] = useState(0);
     const [startPage, setStartPage] = useState(1);
     const [endPage, setEndPage] = useState(0);
-
     const itemsPerPage = 16;
     const sectionSize = 10;
 
@@ -58,29 +57,21 @@ function QuestionsContent() {
                 setQuestions([]);
                 return;
             }
-
             setQuestions(response.data.content);
-
-            setPageCount(response.data.totalPages - 1);
-            setNumber(response.data.number);
-
-
-
-            // 백엔드로 보낼 로직
-            const currentPage = response.data.number;
-            const totalPageCount = response.data.totalPages;
-            const tmpStartPage = Math.floor((currentPage) / sectionSize) * sectionSize + 1;
-            setStartPage(tmpStartPage)
-            const tmpEndPage = Math.min(tmpStartPage + sectionSize - 1, totalPageCount)
-            setEndPage(tmpEndPage);
-            // 백엔드로 보낼 로직
-
-
+            pagination(response);
         } catch (error) {
             handleLogError(error);
             setError(error);
         } finally {
         }
+    };
+
+    const pagination = (response) => {
+        setPageCount(response.data.totalPages - 1);
+        setNumber(response.data.number);
+        const { startPage, endPage } = PaginationUtil(response, sectionSize);
+        setStartPage(startPage);
+        setEndPage(endPage);
     };
 
     const handlePageClick = async (index) => {
