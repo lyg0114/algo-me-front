@@ -5,7 +5,7 @@ import ListIcon from "../assets/svg/ListIcon";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import HomeIcon from "../assets/svg/HomeIcon";
-import DashBoardIcon from "../assets/svg/DashBoardIcon";
+import {NavLink} from "react-router-dom";
 
 
 const offcanvasStyle = {
@@ -19,6 +19,7 @@ function SideMenu() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    let linkStyle = {textDecoration: 'none'};
     return (
         <>
             <Row>
@@ -32,16 +33,15 @@ function SideMenu() {
                         </Offcanvas.Header>
 
                         <Offcanvas.Body>
-                            <Row className='mb-2'>
-                                <Col xs={3}>
-                                    <HomeIcon style={{width: '20px', height: '20px', color: '#bfbfbf'}}/> </Col>
-                                <Col xs={9} style={textStyle}> HOME </Col>
-                            </Row>
-                            {/*<Row className='mb-2'>*/}
-                            {/*    <Col xs={3}>*/}
-                            {/*        <DashBoardIcon style={{width: '20px', height: '20px', color: '#bfbfbf'}}/> </Col>*/}
-                            {/*    <Col xs={9} style={textStyle}> DASHBOAD </Col>*/}
-                            {/*</Row>*/}
+                            {/*  LINK  */}
+                            <NavLink style={linkStyle} to="/" as={NavLink}>
+                                <Row className='mb-2'>
+                                    <Col xs={3}>
+                                        <HomeIcon style={{width: '20px', height: '20px', color: '#bfbfbf'}}/>
+                                    </Col>
+                                    <Col xs={9} style={textStyle}> HOME </Col>
+                                </Row>
+                            </NavLink>
                         </Offcanvas.Body>
                     </Offcanvas>
                 </Col>
@@ -50,7 +50,6 @@ function SideMenu() {
                 </Col>
             </Row>
         </>
-
     );
 }
 
