@@ -5,10 +5,6 @@ import {useNavigate, useParams} from "react-router-dom";
 import {handleLogError} from "../../../util/Helpers";
 import {backendApi} from "../../../util/BackendApi";
 
-const buttonStyle = {
-    marginLeft: '7px'
-}
-
 function QuestionSaveContent() {
     const Auth = useAuth();
     let user = Auth.getUser();
@@ -68,7 +64,8 @@ function QuestionSaveContent() {
             <Row className="g-4 mt-5 pl-5 pr-5" style={{height: '100vh'}}>
                 <Col xs='auto' md={2} sm={2} lg={2} xl={2} xxl={2}></Col>
                 <Col xs='auto' md={8} sm={8} lg={8} xl={8} xxl={8}>
-                    <Form onSubmit={handleSubmit} style={{height: '100%', color: 'white'}}>
+                    <Form className='header' onSubmit={handleSubmit}
+                          style={{height: '100%', color: 'white', position: 'relative'}}>
                         <Form.Group as={Row} className="mb-3">
                             <Form.Label column sm={2}> 유형 </Form.Label>
                             <Col sm={5}>
@@ -125,14 +122,12 @@ function QuestionSaveContent() {
                                     type="text"/>
                             </Col>
                         </Form.Group>
-                        <Form.Group as={Row} className="mb-3">
-                            <Col xs={2} sm={6} md={7} lg={8} xl={8} xxl={9}></Col>
-                            <Col xs={3} sm={1} md={1} lg={1} xl={1} xxl={1}></Col>
-                            <Col xs={7} sm={5} md={4} lg={3} xl={3} xxl={2}>
-                                <Button style={buttonStyle} type="submit">등록</Button>
-                                {/*<Button style={buttonStyle} type="submit">취소</Button>*/}
-                            </Col>
-                        </Form.Group>
+                        <Button style={{
+                            position: 'absolute',
+                            right: 0,
+                            marginTop: '7px',
+                            marginLeft: '7px'
+                        }} type="submit">저장</Button>
                     </Form>
                 </Col>
                 <Col sm={2} md={2} lg={2} xl={2} xxl={2}></Col>
