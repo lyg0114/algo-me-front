@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import Card from "react-bootstrap/Card";
 import {Col, ListGroup, Row} from "react-bootstrap";
 import ThreeDotsIcon from "../../assets/svg/ThreeDotsIcon";
@@ -13,11 +13,6 @@ let spreadElements = {
 
 function QuestionCard({id, title, fromSource, reviewCount, registDt}) {
     const navigate = useNavigate();
-    const [imageUrl, setImageUrl] = useState(null);
-    const handleClick = (e) => {
-        e.preventDefault()
-    }
-
     const goToUPdate = () => {
         navigate(`/save-question/${id}`);
     }
@@ -35,12 +30,12 @@ function QuestionCard({id, title, fromSource, reviewCount, registDt}) {
                     </Col>
                 </Row>
                 <Row>
-                    <Card.Title style={{height: '70px'}}>{title} [ {reviewCount} ]</Card.Title>
+                    <Card.Title style={{height: '70px'}}> {title} </Card.Title>
                 </Row>
             </Card.Body>
             <ListGroup className="list-group-flush" style={spreadElements}>
                 <ListGroup.Item style={spreadElements}>{fromSource}</ListGroup.Item>
-                <ListGroup.Item style={spreadElements}>{registDt}</ListGroup.Item>
+                <ListGroup.Item style={spreadElements}>{registDt} [{reviewCount}]</ListGroup.Item>
             </ListGroup>
         </Card>
     )
