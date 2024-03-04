@@ -3,7 +3,6 @@ import SideMenu from "../../common/SideMenu";
 import SearchIcon from "../../assets/svg/SearchIcon";
 import QuestionPlusIcon from "../../assets/svg/QuestionPlusIcon";
 import React from "react";
-import {useQuestion} from "./QuestionsContext";
 
 const searchInputStyle = {
     borderTopLeftRadius: '40px',
