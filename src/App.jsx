@@ -7,6 +7,7 @@ import QuestionsLayout from "./components/user/question/QuestionsLayout";
 import QuestionSaveLayout from "./components/user/question/QuestionSave/QuestionSaveLayout";
 import {AuthProvider} from "./components/context/AuthContext";
 import PrivateRoute from "./components/util/PrivateRoute";
+import Logout from "./components/Logout";
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                         <Route path="/save-question/:id?" element={<QuestionSaveLayout/>}/>
                         <Route path="*" element={<Navigate to="/"/>}/>
                         <Route path='/login' element={<Login/>}/>
+                        <Route path='/logout' element={<Logout/>}/>
                         <Route path="*" element={<Navigate to="/"/>}/>
                     </Routes>
                 </Router>
