@@ -10,6 +10,7 @@ import QuestionPlusIcon from "../../assets/svg/QuestionPlusIcon";
 import QuestionCard from "./QuestionCard";
 import PaginationUtil from "../../util/PaginationUtil";
 import {NavLink} from "react-router-dom";
+import DummyQuestionCard from "./DummyQuestionCard";
 
 const searchInputStyle = {
     borderTopLeftRadius: '40px',
@@ -36,6 +37,7 @@ const searchButtonStyle = {
 function QuestionsContent() {
     const Auth = useAuth();
     const [isError, setError] = useState(null);
+    const [loading, setLoading] = useState(false); // 로딩 상태 추가
     const [questions, setQuestions] = useState([]);
     const [searchInput, setSearchInput] = useState("");
 
@@ -51,6 +53,7 @@ function QuestionsContent() {
     }, [])
 
     const fetchQuestions = async (page, size) => {
+        setLoading(true);
         let user = Auth.getUser();
         try {
             const response = await backendApi.getQuestions(user, page, size, searchInput);
@@ -64,13 +67,14 @@ function QuestionsContent() {
             handleLogError(error);
             setError(error);
         } finally {
+            setLoading(false);
         }
     };
 
     const pagination = (response) => {
         setPageCount(response.data.totalPages - 1);
         setNumber(response.data.number);
-        const { startPage, endPage } = PaginationUtil(response, sectionSize);
+        const {startPage, endPage} = PaginationUtil(response, sectionSize);
         setStartPage(startPage);
         setEndPage(endPage);
     };
@@ -133,7 +137,16 @@ function QuestionsContent() {
                 <Col className='p-3 mb-2'>Empty</Col>
             </Row>
 
-            {questions.length === 0 ? (
+            {loading && (
+                <Row xs={1} md={2} lg={3} xl={4} xxl={4} className="g-4 mt-3 mb-3 pl-5 pr-5">
+                    {Array.from({length: itemsPerPage}, (_, index) => (
+                        <Col key={index}>
+                            <DummyQuestionCard/>
+                        </Col>
+                    ))}
+                </Row>)}
+
+            {!loading && questions.length === 0 ? (
                 <Row className="g-4 mt-3 pl-5 pr-5">
                     <Col>
                         <p style={{color: '#bfbfbf', textAlign: 'center'}}>데이터가 존재하지 않습니다.</p>
@@ -171,6 +184,7 @@ function QuestionsContent() {
                 </Col>
                 <Col></Col>
             </Row>
+
             <Row className='mt-4 md-4'>
             </Row>
         </>
