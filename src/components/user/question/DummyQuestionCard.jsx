@@ -15,7 +15,7 @@ function DummyQuestionCard() {
                     <Placeholder xs={7}/> <Placeholder xs={4}/> <Placeholder xs={4}/>{' '}
                     <Placeholder xs={6}/> <Placeholder xs={8}/>
                 </Placeholder>
-                <Placeholder.Button xs={6} style={{background: 'gray', borderColor: 'gray'}}/>
+                <Placeholder.Button xs={6} bg="secondary"/>
             </Card.Body>
         </Card>
     )
