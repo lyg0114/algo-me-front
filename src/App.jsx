@@ -8,6 +8,7 @@ import QuestionSaveLayout from "./components/user/question/QuestionSave/Question
 import {AuthProvider} from "./components/context/AuthContext";
 import PrivateRoute from "./components/util/PrivateRoute";
 import Logout from "./components/Logout";
+import LandingPageLayout from "./components/user/landingpage/LandingPageLayout";
 
 function App() {
     return (
@@ -16,6 +17,9 @@ function App() {
                 <Router>
                     <Routes>
                         <Route path='/' element={
+                            <LandingPageLayout/>
+                        }/>
+                        <Route path='/main' element={
                             <PrivateRoute>
                                 <QuestionsLayout/>
                             </PrivateRoute>
