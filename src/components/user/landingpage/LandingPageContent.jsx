@@ -2,6 +2,7 @@ import React from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ChartImage from '../../assets/images/chart1.jpeg'
+import Button from "react-bootstrap/Button";
 
 function LandingPageContent() {
     return (
@@ -13,6 +14,7 @@ function LandingPageContent() {
                         <div> HOW DO </div>
                         <div> YOU GET READY </div>
                         <div> FOR REVIEW </div>
+                        <Button variant="secondary" size="lg"> GETTING STARTED </Button>
                     </div>
                 </Col>
                 <Col style={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}} xs={6} lg={8}>
