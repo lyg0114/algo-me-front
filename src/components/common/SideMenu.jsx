@@ -34,7 +34,7 @@ function SideMenu() {
 
                         <Offcanvas.Body>
                             {/*  LINK  */}
-                            <NavLink style={linkStyle} to="/" as={NavLink}>
+                            <NavLink style={linkStyle} to="/main" as={NavLink}>
                                 <Row className='mb-2'>
                                     <Col xs={3}>
                                         <HomeIcon style={{width: '20px', height: '20px', color: '#bfbfbf'}}/>
