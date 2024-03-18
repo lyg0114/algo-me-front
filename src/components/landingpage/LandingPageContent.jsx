@@ -1,7 +1,7 @@
 import React from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import ChartImage from '../assets/images/chart1.jpeg'
+import ChartImage from '../assets/images/forgetting-curve.jpeg'
 import Button from "react-bootstrap/Button";
 import {useNavigate} from "react-router-dom";
 
