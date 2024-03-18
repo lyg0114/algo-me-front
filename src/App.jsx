@@ -8,7 +8,7 @@ import QuestionSaveLayout from "./components/user/question/QuestionSave/Question
 import {AuthProvider} from "./components/context/AuthContext";
 import PrivateRoute from "./components/util/PrivateRoute";
 import Logout from "./components/Logout";
-import LandingPageLayout from "./components/user/landingpage/LandingPageLayout";
+import LandingPageLayout from "./components/landingpage/LandingPageLayout";
 
 function App() {
     return (
