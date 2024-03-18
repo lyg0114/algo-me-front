@@ -1,7 +1,6 @@
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Image from 'react-bootstrap/Image';
-import {Container} from "react-bootstrap";
+import {Container, Dropdown} from "react-bootstrap";
 import ProfileImage from '../assets/images/profil.jpeg';
 
 function ProfilInfo() {
@@ -15,14 +14,36 @@ function ProfilInfo() {
                         </Col>
                         <Col xs={6} sm={6} md={9} lg={8} xl={8} xxl={9}>
                             <div className="d-flex justify-content-start">
-                                <Image style={{width: '40px', height: '40px'}} src={ProfileImage} roundedCircle/>
+                                <Dropdown>
+                                    <Dropdown.Toggle className='bg-black border-black p-0' id="dropdown-basic" aria-haspopup="true">
+                                        <img
+                                            style={{width: '40px', height: '40px', borderRadius: '50%'}}
+                                            src={ProfileImage}
+                                            alt="Profile"
+                                        />
+                                    </Dropdown.Toggle>
+
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                                        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
                             </div>
                         </Col>
                     </Row>
                 </Container>
             </div>
+            <style>
+                {`
+                .dropdown-toggle::after {
+                    display: none !important;
+                }
+                `}
+            </style>
         </>
     );
 }
 
 export default ProfilInfo;
+

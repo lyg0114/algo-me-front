@@ -100,7 +100,7 @@ function QuestionsContent() {
                 <Col xs={6} sm={7} md={8} lg={8} xl={8} xxl={8}>
                     <form>
                         <Container>
-                            <Row>
+                            <Row className='mt-1'>
                                 <Col className="px-0" xs={9}>
                                     <input
                                         onChange={(e) => setSearchInput(e.target.value)}
@@ -124,11 +124,14 @@ function QuestionsContent() {
 
                 {/* 문제 등록 */}
                 <Col xs={3} sm={2} md={1} lg={1} xl={1} xxl={1}>
-                    <NavLink to="/save-question/" color='violet' as={NavLink}>
-                        <Button className='bg-black border-black'>
-                            <QuestionPlusIcon style={{width: '25px', height: '25px', color: '#bfbfbf'}}/>
-                        </Button>
-                    </NavLink>
+                    <Row className='mt-1'>
+                        <NavLink to="/save-question/" color='violet' as={NavLink}>
+                            <Button className='bg-black border-black'>
+                                <QuestionPlusIcon style={{width: '25px', height: '25px', color: '#bfbfbf'}}/>
+                            </Button>
+                        </NavLink>
+
+                    </Row>
                 </Col>
             </Row>
 
