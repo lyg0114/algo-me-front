@@ -4,14 +4,13 @@ import {backendApi} from "../../util/BackendApi";
 import {useAuth} from "../../context/AuthContext";
 import {handleLogError} from "../../util/Helpers";
 import ListPagination from "../../common/ListPagination";
-import SideMenu from "../../common/SideMenu";
+import ProfilInfo from "../../common/ProfilInfo";
 import SearchIcon from "../../assets/svg/SearchIcon";
 import QuestionPlusIcon from "../../assets/svg/QuestionPlusIcon";
 import QuestionCard from "./QuestionCard";
 import PaginationUtil from "../../util/PaginationUtil";
 import {NavLink} from "react-router-dom";
 import DummyQuestionCard from "./DummyQuestionCard";
-import ProfilInfo from "../ProfilInfo";
 
 const searchInputStyle = {
     borderTopLeftRadius: '40px',
@@ -94,7 +93,7 @@ function QuestionsContent() {
             <Row className="justify-content-between pl-3 pr-3 pt-4 pb-4 mb-2 fixed-top bg-black">
                 {/* 사이드 바 */}
                 <Col xs={3} sm={3} md={3} lg={3} xl={3} xxl={3}>
-                    <SideMenu/>
+                    <ProfilInfo/>
                 </Col>
 
                 {/* 검색 창 */}
