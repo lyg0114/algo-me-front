@@ -15,7 +15,8 @@ function ProfilInfo() {
                         <Col xs={6} sm={6} md={9} lg={8} xl={8} xxl={9}>
                             <div className="d-flex justify-content-start">
                                 <Dropdown>
-                                    <Dropdown.Toggle className='bg-black border-black p-0' id="dropdown-basic" aria-haspopup="true">
+                                    <Dropdown.Toggle className='bg-black border-black p-0' id="dropdown-basic"
+                                                     aria-haspopup="true">
                                         <img
                                             style={{width: '40px', height: '40px', borderRadius: '50%'}}
                                             src={ProfileImage}
@@ -23,10 +24,9 @@ function ProfilInfo() {
                                         />
                                     </Dropdown.Toggle>
 
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                    <Dropdown.Menu variant="dark">
+                                        <Dropdown.Item style={{backgroundColor: '#343a40'}}
+                                                       href="/main">메인화면</Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </div>
