@@ -1,7 +1,7 @@
 import React from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import ChartImage from '../../assets/images/chart1.jpeg'
+import ChartImage from '../assets/images/forgetting-curve.jpeg'
 import Button from "react-bootstrap/Button";
 import {useNavigate} from "react-router-dom";
 
@@ -10,7 +10,7 @@ function LandingPageContent() {
     const goToLogin = () => {
         navigate(`/login`);
     }
-    
+
     return (
         <>
             <Row style={{height: '100vh', background: 'rgb(15, 15, 15)'}}

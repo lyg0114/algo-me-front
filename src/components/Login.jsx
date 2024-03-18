@@ -51,7 +51,7 @@ function Login() {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-900">
+        <div className="min-h-screen flex items-center justify-center bg-gray-900 bg-black">
             <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
                 <h2 className="text-3xl font-extrabold text-gray-900 mb-4">LOGIN</h2>
                 <Form onSubmit={handleSubmit}>

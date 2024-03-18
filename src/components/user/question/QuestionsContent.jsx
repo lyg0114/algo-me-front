@@ -4,7 +4,7 @@ import {backendApi} from "../../util/BackendApi";
 import {useAuth} from "../../context/AuthContext";
 import {handleLogError} from "../../util/Helpers";
 import ListPagination from "../../common/ListPagination";
-import SideMenu from "../../common/SideMenu";
+import ProfilInfo from "../../common/ProfilInfo";
 import SearchIcon from "../../assets/svg/SearchIcon";
 import QuestionPlusIcon from "../../assets/svg/QuestionPlusIcon";
 import QuestionCard from "./QuestionCard";
@@ -45,7 +45,7 @@ function QuestionsContent() {
     const [number, setNumber] = useState(0);
     const [startPage, setStartPage] = useState(1);
     const [endPage, setEndPage] = useState(0);
-    const itemsPerPage = 9;
+    const itemsPerPage = 12;
     const sectionSize = 10;
 
     useEffect(() => {
@@ -93,14 +93,14 @@ function QuestionsContent() {
             <Row className="justify-content-between pl-3 pr-3 pt-4 pb-4 mb-2 fixed-top bg-black">
                 {/* 사이드 바 */}
                 <Col xs={3} sm={3} md={3} lg={3} xl={3} xxl={3}>
-                    <SideMenu/>
+                    <ProfilInfo/>
                 </Col>
 
                 {/* 검색 창 */}
                 <Col xs={6} sm={7} md={8} lg={8} xl={8} xxl={8}>
                     <form>
                         <Container>
-                            <Row>
+                            <Row className='mt-1'>
                                 <Col className="px-0" xs={9}>
                                     <input
                                         onChange={(e) => setSearchInput(e.target.value)}
@@ -124,11 +124,14 @@ function QuestionsContent() {
 
                 {/* 문제 등록 */}
                 <Col xs={3} sm={2} md={1} lg={1} xl={1} xxl={1}>
-                    <NavLink to="/save-question/" color='violet' as={NavLink}>
-                        <Button variant="primary" className='bg-black border-black'>
-                            <QuestionPlusIcon style={{width: '25px', height: '25px', color: '#bfbfbf'}}/>
-                        </Button>
-                    </NavLink>
+                    <Row className='mt-1'>
+                        <NavLink to="/save-question/" color='violet' as={NavLink}>
+                            <Button className='bg-black border-black'>
+                                <QuestionPlusIcon style={{width: '25px', height: '25px', color: '#bfbfbf'}}/>
+                            </Button>
+                        </NavLink>
+
+                    </Row>
                 </Col>
             </Row>
 
