@@ -45,7 +45,7 @@ function QuestionsContent() {
     const [number, setNumber] = useState(0);
     const [startPage, setStartPage] = useState(1);
     const [endPage, setEndPage] = useState(0);
-    const itemsPerPage = 9;
+    const itemsPerPage = 12;
     const sectionSize = 10;
 
     useEffect(() => {
