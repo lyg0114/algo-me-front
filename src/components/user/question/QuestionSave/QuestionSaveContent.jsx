@@ -22,7 +22,10 @@ function QuestionSaveContent() {
 
     useEffect(() => {
         fetchAndBindingQuestion();
-    }, []);
+        if (editorRef.current) {
+            editorRef.current.getInstance().setMarkdown(content);
+        }
+    }, [content]);
 
     const fetchAndBindingQuestion = async () => {
         if (id) {
@@ -53,7 +56,7 @@ function QuestionSaveContent() {
                 response = await backendApi.addQuestion(question, user);
             }
             clearInput();
-            navigate('/');
+            navigate('/main');
         } catch (error) {
             handleLogError(error)
             setIsError(true)
