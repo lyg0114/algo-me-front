@@ -5,20 +5,29 @@ import {useNavigate, useParams} from "react-router-dom";
 import {handleLogError} from "../../../util/Helpers";
 import {backendApi} from "../../../util/BackendApi";
 
+import '@toast-ui/editor/dist/toastui-editor.css';
+import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
+import {Editor} from "@toast-ui/react-editor";
+
 function QuestionSaveContent() {
     const Auth = useAuth();
     let user = Auth.getUser();
+    const editorRef = React.useRef();
     const [title, setTitle] = useState('');
     const [url, setUrl] = useState('');
     const [fromSource, setFromSource] = useState('');
     const [questionType, setQuestionType] = useState('');
+    const [content, setContent] = useState('');
     const navigate = useNavigate();
     const {id} = useParams();
     const [isError, setIsError] = useState(false)
 
     useEffect(() => {
         fetchAndBindingQuestion();
-    }, []);
+        if (editorRef.current) {
+            editorRef.current.getInstance().setMarkdown(content);
+        }
+    }, [content]);
 
     const fetchAndBindingQuestion = async () => {
         if (id) {
@@ -28,6 +37,7 @@ function QuestionSaveContent() {
                 setFromSource(response.data.fromSource);
                 setTitle(response.data.title);
                 setUrl(response.data.url);
+                setContent(response.data.content);
             } catch (error) {
                 handleLogError(error);
             }
@@ -37,14 +47,18 @@ function QuestionSaveContent() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         let response;
+        let content = editorRef.current.getInstance().getMarkdown();
+        let question = {title, url, fromSource, questionType, content};
+        console.log(question)
+
         try {
             if (id) {
-                response = await backendApi.updateQuestion(id, {title, url, fromSource, questionType}, user);
+                response = await backendApi.updateQuestion(id, question, user);
             } else {
-                response = await backendApi.addQuestion({title, url, fromSource, questionType}, user);
+                response = await backendApi.addQuestion(question, user);
             }
             clearInput();
-            navigate('/');
+            navigate('/main');
         } catch (error) {
             handleLogError(error)
             setIsError(true)
@@ -59,6 +73,11 @@ function QuestionSaveContent() {
         setQuestionType("");
     }
 
+    let colStyle = {
+        paddingLeft: '0px',
+        paddingRight: '0px'
+    };
+
     return (
         <>
             <Row className="g-4 mt-5 pl-5 pr-5" style={{height: '100vh'}}>
@@ -68,12 +87,13 @@ function QuestionSaveContent() {
                           style={{height: '100%', color: 'white', position: 'relative'}}>
                         <Form.Group as={Row} className="mb-3">
                             <Form.Label column sm={2}> 유형 </Form.Label>
-                            <Col sm={5}>
+                            <Col sm={5} style={colStyle}>
                                 <Form.Select id='questionType'
                                              name='questionType'
                                              value={questionType}
                                              onChange={(e) => setQuestionType(e.target.value)}
-                                             aria-label="Default select example">
+                                             aria-label="Default select example"
+                                >
                                     <option value="">선택</option>
                                     <option value="GREEDY">GREEDY</option>
                                     <option value="DP">DP</option>
@@ -85,7 +105,7 @@ function QuestionSaveContent() {
                         </Form.Group>
                         <Form.Group as={Row} className="mb-3">
                             <Form.Label column sm={2}> 출처 </Form.Label>
-                            <Col sm={5}>
+                            <Col sm={5} style={colStyle}>
                                 <Form.Select id="fromSource"
                                              name="fromSource"
                                              value={fromSource}
@@ -101,12 +121,13 @@ function QuestionSaveContent() {
                         </Form.Group>
                         <Form.Group as={Row} className="mb-3">
                             <Form.Label column sm={2}> 제목 </Form.Label>
-                            <Col sm={10}>
-                                <Form.Control id="title"
-                                              name="title"
-                                              value={title}
-                                              type="text"
-                                              onChange={(e) => setTitle(e.target.value)}
+                            <Col sm={10} style={colStyle}>
+                                <Form.Control
+                                    id="title"
+                                    name="title"
+                                    value={title}
+                                    type="text"
+                                    onChange={(e) => setTitle(e.target.value)}
                                 />
                             </Col>
                         </Form.Group>
@@ -114,12 +135,28 @@ function QuestionSaveContent() {
                             <Form.Label column sm={2}>
                                 URL
                             </Form.Label>
-                            <Col sm={10}>
+                            <Col sm={10} style={colStyle}>
                                 <Form.Control
                                     id="url" name="url"
                                     value={url}
                                     onChange={(e) => setUrl(e.target.value)}
                                     type="text"/>
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} className="mb-3">
+                            <Form.Label column sm={2}>
+                                내용
+                            </Form.Label>
+                            <Col sm={10} className='p-0 rounded'>
+                                <Editor
+                                    initialValue={content}
+                                    previewStyle="vertical"
+                                    height="600px"
+                                    initialEditType="markdown"
+                                    useCommandShortcut={true}
+                                    ref={editorRef}
+                                    theme='dark'
+                                />
                             </Col>
                         </Form.Group>
                         <Button style={{
