@@ -16,11 +16,12 @@ function QuestionCard({id, title, fromSource, reviewCount, registDt}) {
     const goToUPdate = () => {
         navigate(`/save-question/${id}`);
     }
+    const goToView = () => {
+        navigate(`/view-question/${id}`);
+    }
 
     return (
-        <Card style={{
-            borderColor: '#121212',
-        }}>
+        <Card style={{borderColor: '#121212'}}>
             <Card.Body style={{background: '#0f0f0f', color: '#bfbfbf'}}>
                 <Row className="justify-content-end">
                     <Col xs={1} style={{marginRight: '20px'}}>
@@ -30,7 +31,9 @@ function QuestionCard({id, title, fromSource, reviewCount, registDt}) {
                     </Col>
                 </Row>
                 <Row>
-                    <Card.Title style={{height: '70px'}}> {title} </Card.Title>
+                    <Card.Title onClick={goToView} style={{cursor: 'pointer', height: '70px'}}>
+                        {title}
+                    </Card.Title>
                 </Row>
             </Card.Body>
             <ListGroup className="list-group-flush" style={spreadElements}>

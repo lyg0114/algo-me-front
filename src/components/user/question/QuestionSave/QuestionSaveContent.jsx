@@ -4,8 +4,10 @@ import {useAuth} from "../../../context/AuthContext";
 import {useNavigate, useParams} from "react-router-dom";
 import {handleLogError} from "../../../util/Helpers";
 import {backendApi} from "../../../util/BackendApi";
-import {Editor} from "@toast-ui/react-editor";
+
 import '@toast-ui/editor/dist/toastui-editor.css';
+import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
+import {Editor} from "@toast-ui/react-editor";
 
 function QuestionSaveContent() {
     const Auth = useAuth();
@@ -91,7 +93,6 @@ function QuestionSaveContent() {
                                              value={questionType}
                                              onChange={(e) => setQuestionType(e.target.value)}
                                              aria-label="Default select example"
-
                                 >
                                     <option value="">선택</option>
                                     <option value="GREEDY">GREEDY</option>
@@ -146,7 +147,7 @@ function QuestionSaveContent() {
                             <Form.Label column sm={2}>
                                 내용
                             </Form.Label>
-                            <Col sm={10} className='bg-white p-0 rounded'>
+                            <Col sm={10} className='p-0 rounded'>
                                 <Editor
                                     initialValue={content}
                                     previewStyle="vertical"
@@ -154,6 +155,7 @@ function QuestionSaveContent() {
                                     initialEditType="markdown"
                                     useCommandShortcut={true}
                                     ref={editorRef}
+                                    theme='dark'
                                 />
                             </Col>
                         </Form.Group>
