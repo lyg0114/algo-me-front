@@ -8,6 +8,7 @@ import {backendApi} from "../../../util/BackendApi";
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
 import {Editor} from "@toast-ui/react-editor";
+import {validateElement} from "react-modal/lib/helpers/ariaAppHider";
 
 function QuestionSaveContent() {
     const Auth = useAuth();
@@ -29,10 +30,17 @@ function QuestionSaveContent() {
         }
     }, [content]);
 
+    const validate = (response) => {
+        if (response.data.content == null) {
+            response.data.content = '';
+        }
+    };
+
     const fetchAndBindingQuestion = async () => {
         if (id) {
             try {
                 const response = await backendApi.getQuestion(user, id);
+                validate(response);
                 setQuestionType(response.data.questionType);
                 setFromSource(response.data.fromSource);
                 setTitle(response.data.title);
