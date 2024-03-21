@@ -1,9 +1,8 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
-import {Col, ListGroup, Row} from "react-bootstrap";
+import {Col, Dropdown, ListGroup, Row} from "react-bootstrap";
 import ThreeDotsIcon from "../../assets/svg/ThreeDotsIcon";
 import {useNavigate} from "react-router-dom";
-
 
 let spreadElements = {
     background: '#121212',
@@ -13,20 +12,22 @@ let spreadElements = {
 
 function QuestionCard({id, title, fromSource, reviewCount, registDt}) {
     const navigate = useNavigate();
-    const goToUPdate = () => {
-        navigate(`/save-question/${id}`);
-    }
-    const goToView = () => {
-        navigate(`/view-question/${id}`);
-    }
-
+    const goToUPdate = () => { navigate(`/save-question/${id}`); }
+    const goToView = () => { navigate(`/view-question/${id}`); }
     return (
         <Card style={{borderColor: '#121212'}}>
             <Card.Body style={{background: '#0f0f0f', color: '#bfbfbf'}}>
                 <Row className="justify-content-end">
                     <Col xs={1} style={{marginRight: '20px'}}>
-                        <button onClick={goToUPdate}>
-                            <ThreeDotsIcon/>
+                        <button>
+                            <Dropdown>
+                                <Dropdown.Toggle className='bg-black border-black p-0' id="dropdown-basic" aria-haspopup="true">
+                                    <ThreeDotsIcon/>
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu variant="dark">
+                                    <Dropdown.Item style={{backgroundColor: '#343a40'}} onClick={goToUPdate}>수정</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
                         </button>
                     </Col>
                 </Row>
