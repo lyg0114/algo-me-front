@@ -10,6 +10,7 @@ import PrivateRoute from "./components/util/PrivateRoute";
 import Logout from "./components/Logout";
 import LandingPageLayout from "./components/landingpage/LandingPageLayout";
 import QuestionViewLayout from "./components/user/question/QuestionView/QuestionViewLayout";
+import SignUp from "./components/SignUp";
 
 function App() {
     return (
@@ -30,6 +31,7 @@ function App() {
                         <Route path="*" element={<Navigate to="/"/>}/>
                         <Route path='/login' element={<Login/>}/>
                         <Route path='/logout' element={<Logout/>}/>
+                        <Route path='/signup' element={<SignUp/>}/>
                         <Route path="*" element={<Navigate to="/"/>}/>
                     </Routes>
                 </Router>

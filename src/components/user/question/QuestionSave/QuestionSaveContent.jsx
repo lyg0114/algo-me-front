@@ -8,7 +8,6 @@ import {backendApi} from "../../../util/BackendApi";
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
 import {Editor} from "@toast-ui/react-editor";
-import {validateElement} from "react-modal/lib/helpers/ariaAppHider";
 
 function QuestionSaveContent() {
     const Auth = useAuth();

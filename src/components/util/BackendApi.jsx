@@ -12,15 +12,14 @@ export const backendApi = {
     deleteQuestion
 }
 
-function authenticate(username, password) {
-    const email = username;
+function authenticate(email, password) {
     return instance.post('/rest/auth/login', {email, password}, {
         headers: {'Content-type': 'application/json'}
     })
 }
 
 function signup(user) {
-    return instance.post('/auth/signup', user, {
+    return instance.post('/rest/auth/signup', user, {
         headers: {'Content-type': 'application/json'}
     })
 }
