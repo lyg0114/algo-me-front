@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {Link, Navigate} from 'react-router-dom';
+import {Navigate, useNavigate} from 'react-router-dom';
 import {useAuth} from './context/AuthContext';
 import {backendApi} from './util/BackendApi';
-import {handleLogError, parseJwt} from './util/Helpers';
+import {handleLogError} from './util/Helpers';
 import {Button, Form} from 'react-bootstrap';
 
 function Login() {
@@ -10,10 +10,12 @@ function Login() {
     const isLoggedIn = Auth.userIsAuthenticated();
 
     const [email, setEmail] = useState('');
+    const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [isValidated, setIsValidated] = useState(false);
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleInputChange = (e) => {
         const {name, value} = e.target;
@@ -23,6 +25,8 @@ function Login() {
             setPassword(value);
         } else if (name === 'passwordConfirm') {
             setPasswordConfirm(value);
+        } else if (name === 'userName') {
+            setUserName(value);
         }
     };
 
@@ -35,6 +39,7 @@ function Login() {
             return;
         }
 
+        //TODO : 패스워드복잡도를 체크하는 유효성 로직이 추가되어야 함.
         if (password !== passwordConfirm) {
             setIsValidated(true);
             setMessage("password가 일치하지 않습니다.");
@@ -42,14 +47,13 @@ function Login() {
         }
 
         try {
-            const response = await backendApi.signup({email, password});
-            const accessToken = response.data.token;
-            const data = parseJwt(accessToken);
-            const authenticatedUser = {data, accessToken};
-            Auth.userLogin(authenticatedUser);
+            const response = await backendApi.signup({email, userName, password});
             setEmail('');
             setPassword('');
+            setUserName('');
             setIsValidated(false);
+            alert(response.data.message);
+            navigate('/login');
         } catch (error) {
             handleLogError(error);
             setIsValidated(true);
@@ -75,6 +79,18 @@ function Login() {
                             onChange={handleInputChange}
                             placeholder="enter your email"
                             name="email"
+                            required
+                        />
+                    </Form.Group>
+
+                    <Form.Group controlId="userName" className='mb-2'>
+                        <Form.Label>USER-NAME</Form.Label>
+                        <Form.Control
+                            type="text"
+                            value={userName}
+                            onChange={handleInputChange}
+                            placeholder="enter your userName"
+                            name="userName"
                             required
                         />
                     </Form.Group>
@@ -108,7 +124,7 @@ function Login() {
                         type="submit"
                         className="w-full hover:bg-blue-600 transition duration-300"
                     >
-                        Login
+                        SIGN-UP
                     </Button>
 
                     {isValidated &&
@@ -118,12 +134,6 @@ function Login() {
                     }
 
                 </Form>
-                {/* 회원가입 링크 추가 */}
-                <div className="text-center mt-2">
-                    <span className="text-gray-500">계정이 없으신가요? </span>
-                    <Link to="/signup" className="text-blue-500">회원가입</Link>
-                </div>
-
             </div>
         </div>
     );
