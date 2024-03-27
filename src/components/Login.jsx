@@ -12,6 +12,7 @@ function Login() {
     const [password, setPassword] = useState('');
     const [isValidated, setIsValidated] = useState(false);
     const [message, setMessage] = useState('');
+
     const handleInputChange = (e) => {
         const {name, value} = e.target;
         if (name === 'email') {

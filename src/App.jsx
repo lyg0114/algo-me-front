@@ -8,9 +8,10 @@ import QuestionSaveLayout from "./components/user/question/QuestionSave/Question
 import {AuthProvider} from "./components/context/AuthContext";
 import PrivateRoute from "./components/util/PrivateRoute";
 import Logout from "./components/Logout";
-import LandingPageLayout from "./components/landingpage/LandingPageLayout";
 import QuestionViewLayout from "./components/user/question/QuestionView/QuestionViewLayout";
 import SignUp from "./components/SignUp";
+import LandingPage from "./components/landingpage/LandingPage";
+import CheckEmailPage from "./components/landingpage/CheckEmailPage";
 
 function App() {
     return (
@@ -18,9 +19,7 @@ function App() {
             <AuthProvider>
                 <Router>
                     <Routes>
-                        <Route path='/' element={
-                            <LandingPageLayout/>
-                        }/>
+                        <Route path='/' element={<LandingPage/>}/>
                         <Route path='/main' element={
                             <PrivateRoute>
                                 <QuestionsLayout/>
@@ -32,6 +31,7 @@ function App() {
                         <Route path='/login' element={<Login/>}/>
                         <Route path='/logout' element={<Logout/>}/>
                         <Route path='/signup' element={<SignUp/>}/>
+                        <Route path='/check-email/:token?' element={<CheckEmailPage/>}/>
                         <Route path="*" element={<Navigate to="/"/>}/>
                     </Routes>
                 </Router>

@@ -5,6 +5,7 @@ import {parseJwt} from './Helpers'
 export const backendApi = {
     authenticate,
     signup,
+    checkEmail,
     getQuestions,
     getQuestion,
     addQuestion,
@@ -22,6 +23,11 @@ function signup(user) {
     return instance.post('/rest/auth/signup', user, {
         headers: {'Content-type': 'application/json'}
     })
+}
+
+function checkEmail(token) {
+    const url = '/rest/auth/check-email/' + token;
+    return instance.get(url);
 }
 
 function getQuestions(user, page, size, searchTerm) {

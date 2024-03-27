@@ -15,7 +15,10 @@ function AuthProvider({children}) {
     }
 
     const userIsAuthenticated = () => {
-        let storedUser = localStorage.getItem('user')
+        if(localStorage.getItem('user') === '{}'){
+            return false
+        }
+        let storedUser = localStorage.getItem('user');
         if (!storedUser) {
             return false
         }

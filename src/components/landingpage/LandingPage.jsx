@@ -4,15 +4,16 @@ import Col from "react-bootstrap/Col";
 import ChartImage from '../assets/images/forgetting-curve.jpeg'
 import Button from "react-bootstrap/Button";
 import {useNavigate} from "react-router-dom";
+import CommonLayout from "./CommonLayout";
 
-function LandingPageContent() {
+function LandingPage() {
     const navigate = useNavigate();
     const goToLogin = () => {
         navigate(`/login`);
     }
 
     return (
-        <>
+        <CommonLayout>
             <Row style={{height: '100vh', background: 'rgb(15, 15, 15)'}}
                  className="justify-content-between align-items-center pl-3 pr-3 pt-4 pb-4 mb-2 fixed-top bg-black">
                 <Col style={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}} xs={6} lg={4}>
@@ -29,11 +30,11 @@ function LandingPageContent() {
                     </div>
                 </Col>
             </Row>
-        </>
+        </CommonLayout>
     );
 }
 
-export default LandingPageContent;
+export default LandingPage;
 
 
 
