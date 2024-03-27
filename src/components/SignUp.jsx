@@ -30,6 +30,7 @@ function Login() {
         }
     };
 
+    //TODO : 회원가입버튼 클릭시 로딩창 나오도록 개선
     const handleSubmit = async (e) => {
         e.preventDefault();
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
