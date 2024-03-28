@@ -1,26 +1,29 @@
 import React, {useEffect} from 'react';
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {backendApi} from "../util/BackendApi";
 import {handleLogError} from "../util/Helpers";
 
 function CheckEmailPage(props) {
-
-    const {token} = useParams();
+    const [searchParams] = useSearchParams();
+    const token = searchParams.get('token');
     const navigate = useNavigate();
 
     useEffect(() => {
         checkEmail();
-    }, []);
+    }, [token]);
 
     const checkEmail = async () => {
-        if (token) {
-            try {
+        try {
+            if (token) {
                 const response = await backendApi.checkEmail(token);
                 alert(response.data.message);
                 navigate('/login');
-            } catch (error) {
-                handleLogError(error);
+            } else {
+                navigate('/');
             }
+        } catch (error) {
+            handleLogError(error);
+            // 에러 발생 시 사용자에게 메시지 표시나 다른 처리
         }
     };
 

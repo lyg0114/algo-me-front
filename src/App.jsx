@@ -31,7 +31,7 @@ function App() {
                         <Route path='/login' element={<Login/>}/>
                         <Route path='/logout' element={<Logout/>}/>
                         <Route path='/signup' element={<SignUp/>}/>
-                        <Route path='/check-email/:token?' element={<CheckEmailPage/>}/>
+                        <Route path='/check-email' element={<CheckEmailPage/>}/>
                         <Route path="*" element={<Navigate to="/"/>}/>
                     </Routes>
                 </Router>
