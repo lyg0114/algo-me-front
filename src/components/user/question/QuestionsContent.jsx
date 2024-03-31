@@ -54,11 +54,11 @@ function QuestionsContent() {
 
     const fetchQuestions = async (page, size) => {
         setLoading(true);
+        setQuestions([]);
         let user = Auth.getUser();
         try {
             const response = await backendApi.getQuestions(user, page, size, searchInput);
             if (response.data === "") {
-                setQuestions([]);
                 return;
             }
             setQuestions(response.data.content);
