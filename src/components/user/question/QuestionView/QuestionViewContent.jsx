@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Col, Form, Row} from "react-bootstrap";
+import {Button, Col, Form, Row, Spinner} from "react-bootstrap";
 import {useAuth} from "../../../context/AuthContext";
 import {useNavigate, useParams} from "react-router-dom";
 import {handleLogError} from "../../../util/Helpers";
@@ -20,6 +20,7 @@ function QuestionViewContent() {
     const [content, setContent] = useState('');
     const {id} = useParams();
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false); // Loading state 추가
 
     useEffect(() => {
         fetchAndBindingQuestion();
@@ -31,6 +32,7 @@ function QuestionViewContent() {
     const fetchAndBindingQuestion = async () => {
         if (id) {
             try {
+                setIsLoading(true);
                 const response = await backendApi.getQuestion(user, id);
                 setQuestionType(response.data.questionType);
                 setFromSource(response.data.fromSource);
@@ -39,7 +41,10 @@ function QuestionViewContent() {
                 setContent(response.data.content);
             } catch (error) {
                 handleLogError(error);
+            } finally {
+                setIsLoading(false);
             }
+
         }
     };
 
@@ -56,69 +61,77 @@ function QuestionViewContent() {
 
     return (
         <>
-            <Row className="g-4 mt-5 pl-5 pr-5" style={{height: '100%'}}>
-                <Col xs='auto' md={2} sm={2} lg={2} xl={2} xxl={2}></Col>
-                <Col xs='auto' md={8} sm={8} lg={8} xl={8} xxl={8}>
-                    <Form className='header' style={{height: '100%', color: 'white', position: 'relative'}}>
-                        <Form.Group as={Row} className="mb-3"> </Form.Group>
+            {isLoading ? ( // 로딩 중일 때
+                <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
+                    <Spinner animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                </div>
+            ) : (
+                <Row className="g-4 mt-5 pl-5 pr-5" style={{height: '100%'}}>
+                    <Col xs='auto' md={2} sm={2} lg={2} xl={2} xxl={2}></Col>
+                    <Col xs='auto' md={8} sm={8} lg={8} xl={8} xxl={8}>
+                        <Form className='header' style={{height: '100%', color: 'white', position: 'relative'}}>
+                            <Form.Group as={Row} className="mb-3"> </Form.Group>
 
-                        <Form.Group as={Row} className="mb-3">
-                            <Col sm={10} style={colStyle}>
-                            </Col>
-                            <Col sm={2} className="text-end"> {/* 오른쪽 정렬을 위해 text-end 클래스 추가 */}
-                                <Button onClick={goToUPdate}
-                                        style={{
-                                            position:'relative',
-                                            width: '70px',
-                                            background: 'gray',
-                                            borderColor: 'gray'
-                                        }}>수정</Button>
-                            </Col>
-                        </Form.Group>
+                            <Form.Group as={Row} className="mb-3">
+                                <Col sm={10} style={colStyle}>
+                                </Col>
+                                <Col sm={2} className="text-end"> {/* 오른쪽 정렬을 위해 text-end 클래스 추가 */}
+                                    <Button onClick={goToUPdate}
+                                            style={{
+                                                position:'relative',
+                                                width: '70px',
+                                                background: 'gray',
+                                                borderColor: 'gray'
+                                            }}>수정</Button>
+                                </Col>
+                            </Form.Group>
 
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm={2}> 제목 </Form.Label>
-                            <Col sm={10} style={colStyle}>
-                                <div>{title}</div>
-                            </Col>
-                        </Form.Group>
+                            <Form.Group as={Row} className="mb-3">
+                                <Form.Label column sm={2}> 제목 </Form.Label>
+                                <Col sm={10} style={colStyle}>
+                                    <div>{title}</div>
+                                </Col>
+                            </Form.Group>
 
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm={2}> 출처 </Form.Label>
-                            <Col sm={5} style={colStyle}>
-                                <div>{fromSource}</div>
-                            </Col>
-                            <Col sm={5}></Col>
-                        </Form.Group>
+                            <Form.Group as={Row} className="mb-3">
+                                <Form.Label column sm={2}> 출처 </Form.Label>
+                                <Col sm={5} style={colStyle}>
+                                    <div>{fromSource}</div>
+                                </Col>
+                                <Col sm={5}></Col>
+                            </Form.Group>
 
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm={2}> 유형 </Form.Label>
-                            <Col sm={5} style={colStyle}>
-                                <div>{questionType}</div>
-                            </Col>
-                            <Col sm={5}></Col>
-                        </Form.Group>
+                            <Form.Group as={Row} className="mb-3">
+                                <Form.Label column sm={2}> 유형 </Form.Label>
+                                <Col sm={5} style={colStyle}>
+                                    <div>{questionType}</div>
+                                </Col>
+                                <Col sm={5}></Col>
+                            </Form.Group>
 
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm={2}>
-                                내용
-                            </Form.Label>
-                            <Col sm={10}>
-                                <Viewer
-                                    initialValue={content}
-                                    previewStyle="vertical"
-                                    height="600px"
-                                    initialEditType="markdown"
-                                    useCommandShortcut={true}
-                                    ref={editorRef}
-                                    theme="dark"
-                                />
-                            </Col>
-                        </Form.Group>
-                    </Form>
-                </Col>
-                <Col sm={2} md={2} lg={2} xl={2} xxl={2}></Col>
-            </Row>
+                            <Form.Group as={Row} className="mb-3">
+                                <Form.Label column sm={2}>
+                                    내용
+                                </Form.Label>
+                                <Col sm={10}>
+                                    <Viewer
+                                        initialValue={content}
+                                        previewStyle="vertical"
+                                        height="600px"
+                                        initialEditType="markdown"
+                                        useCommandShortcut={true}
+                                        ref={editorRef}
+                                        theme="dark"
+                                    />
+                                </Col>
+                            </Form.Group>
+                        </Form>
+                    </Col>
+                    <Col sm={2} md={2} lg={2} xl={2} xxl={2}></Col>
+                </Row>
+            )}
         </>
     );
 }
