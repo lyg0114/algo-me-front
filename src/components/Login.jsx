@@ -3,13 +3,14 @@ import {Link, Navigate} from 'react-router-dom';
 import {useAuth} from './context/AuthContext';
 import {backendApi} from './util/BackendApi';
 import {handleLogError, parseJwt} from './util/Helpers';
-import {Button, Form} from 'react-bootstrap';
+import {Button, Form, Spinner} from 'react-bootstrap';
 
 function Login() {
     const Auth = useAuth();
     const isLoggedIn = Auth.userIsAuthenticated();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const [isValidated, setIsValidated] = useState(false);
     const [message, setMessage] = useState('');
 
@@ -30,6 +31,7 @@ function Login() {
         }
 
         try {
+            setIsLoading(true);
             const response = await backendApi.authenticate(email, password);
             const accessToken = response.data.token;
             const data = parseJwt(accessToken);
@@ -42,6 +44,8 @@ function Login() {
             handleLogError(error);
             setIsValidated(true);
             setMessage(error.response.data.message);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -87,18 +91,28 @@ function Login() {
                         Login
                     </Button>
 
-                    {isValidated &&
+                    {
+                        isValidated &&
                         <div className='mt-4'>
                             {message}
                         </div>
                     }
 
                 </Form>
+                {
+                    isLoading &&
+                    <div className="text-center mt-4 mb-4">
+                        <Spinner animation="border" role="status"/>
+                    </div>
+                }
                 {/* 회원가입 링크 추가 */}
-                <div className="text-center mt-2">
-                    <span className="text-gray-500">계정이 없으신가요? </span>
-                    <Link to="/signup" className="text-blue-500">회원가입</Link>
-                </div>
+                {
+                    !isLoading &&
+                    <div className="text-center mt-2">
+                        <span className="text-gray-500">계정이 없으신가요? </span>
+                        <Link to="/signup" className="text-blue-500">회원가입</Link>
+                    </div>
+                }
             </div>
         </div>
     );
