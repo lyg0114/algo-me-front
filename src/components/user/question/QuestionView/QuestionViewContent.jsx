@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Col, Form, Row} from "react-bootstrap";
+import {Button, Col, Form, Row, Spinner} from "react-bootstrap";
 import {useAuth} from "../../../context/AuthContext";
 import {useNavigate, useParams} from "react-router-dom";
 import {handleLogError} from "../../../util/Helpers";
@@ -20,13 +20,11 @@ function QuestionViewContent() {
     const [content, setContent] = useState('');
     const {id} = useParams();
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         fetchAndBindingQuestion();
-        if (editorRef.current) {
-            editorRef.current.getInstance().setMarkdown(content);
-        }
-    }, [content]);
+    }, []);
 
     const fetchAndBindingQuestion = async () => {
         if (id) {
@@ -39,11 +37,13 @@ function QuestionViewContent() {
                 setContent(response.data.content);
             } catch (error) {
                 handleLogError(error);
+            } finally {
+                setIsLoading(false);
             }
         }
     };
 
-    const goToUPdate = () => {
+    const goToUpdate = () => {
         navigate(`/save-question/${id}`);
     }
 
@@ -55,20 +55,25 @@ function QuestionViewContent() {
     };
 
     return (
-        <>
-            <Row className="g-4 mt-5 pl-5 pr-5" style={{height: '100%'}}>
-                <Col xs='auto' md={2} sm={2} lg={2} xl={2} xxl={2}></Col>
-                <Col xs='auto' md={8} sm={8} lg={8} xl={8} xxl={8}>
+        <Row className="g-4 mt-5 pl-5 pr-5" style={{height: '100%'}}>
+            <Col xs='auto' md={2} sm={2} lg={2} xl={2} xxl={2}></Col>
+            <Col xs='auto' md={8} sm={8} lg={8} xl={8} xxl={8}>
+                {isLoading ? ( // 데이터 로딩 중일 때는 Spinner 표시
+                    <div className="d-flex justify-content-center align-items-center" style={{minHeight: '80vh'}}>
+                        <Spinner animation="border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </Spinner>
+                    </div>
+                ) : (
                     <Form className='header' style={{height: '100%', color: 'white', position: 'relative'}}>
                         <Form.Group as={Row} className="mb-3"> </Form.Group>
 
                         <Form.Group as={Row} className="mb-3">
-                            <Col sm={10} style={colStyle}>
-                            </Col>
+                            <Col sm={10} style={colStyle}></Col>
                             <Col sm={2} className="text-end"> {/* 오른쪽 정렬을 위해 text-end 클래스 추가 */}
-                                <Button onClick={goToUPdate}
+                                <Button onClick={goToUpdate}
                                         style={{
-                                            position:'relative',
+                                            position: 'relative',
                                             width: '70px',
                                             background: 'gray',
                                             borderColor: 'gray'
@@ -116,11 +121,11 @@ function QuestionViewContent() {
                             </Col>
                         </Form.Group>
                     </Form>
-                </Col>
-                <Col sm={2} md={2} lg={2} xl={2} xxl={2}></Col>
-            </Row>
-        </>
+                )}
+            </Col>
+            <Col sm={2} md={2} lg={2} xl={2} xxl={2}></Col>
+        </Row>
     );
 }
 
-export default QuestionViewContent;
+export default QuestionViewContent
