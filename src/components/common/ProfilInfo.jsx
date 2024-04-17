@@ -32,6 +32,7 @@ function ProfilInfo() {
 
                                     <Dropdown.Menu variant="dark">
                                         <Dropdown.Item style={{backgroundColor: '#343a40'}} href="/main">메인화면</Dropdown.Item>
+                                        <Dropdown.Item style={{backgroundColor: '#343a40'}} href="/setting/profile">프로필</Dropdown.Item>
                                         <Dropdown.Item style={{backgroundColor: '#343a40'}} href="/logout">로그아웃</Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
