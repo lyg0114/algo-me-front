@@ -44,7 +44,7 @@ function ProfileViewContent() {
     };
 
     const goToUpdate = () => {
-        // navigate(`/save-question/${id}`);
+        navigate(`/save-profile`);
     }
 
     let colStyle = {
