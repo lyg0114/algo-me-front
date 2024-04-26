@@ -11,7 +11,7 @@ import QuestionViewLayout from "./components/user/question/QuestionView/Question
 import SignUp from "./components/SignUp";
 import LandingPage from "./components/landingpage/LandingPage";
 import CheckEmailPage from "./components/landingpage/CheckEmailPage";
-import ProfileSaveLayout from "./components/setting/ProfileSave/ProfileSaveLayout";
+import ProfileViewLayout from "./components/setting/ProfileView/ProfileViewLayout";
 
 function App() {
     return (
@@ -23,7 +23,7 @@ function App() {
                         <Route path='/main' element={<QuestionsLayout/>}/> {/* 문제 등록, 수정 */}
                         <Route path="/save-question/:id?" element={<QuestionSaveLayout/>}/> {/* 문제 등록, 수정 */}
                         <Route path="/view-question/:id?" element={<QuestionViewLayout/>}/> {/* 문제 상세조회 */}
-                        <Route path="/setting/profile" element={<ProfileSaveLayout/>}/> {/* 프로파일 수정 */}
+                        <Route path="/setting/profile" element={<ProfileViewLayout/>}/> {/* 프로파일 화면 */}
 
                         <Route path='/login' element={<Login/>}/>
                         <Route path='/logout' element={<Logout/>}/>
