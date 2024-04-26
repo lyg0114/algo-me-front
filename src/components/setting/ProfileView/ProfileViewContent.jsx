@@ -6,7 +6,7 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
 import {Viewer} from "@toast-ui/react-editor";
 import {useAuth} from "../../context/AuthContext";
-import {backendApi} from "../../util/BackendApi";
+import {backendQuestionApi} from "../../util/api/BackendQuestionApi";
 import {handleLogError} from "../../util/Helpers";
 
 function ProfileViewContent() {
@@ -29,7 +29,7 @@ function ProfileViewContent() {
         const id = 1;
         if (id) {
             try {
-                const response = await backendApi.getQuestion(user, id);
+                const response = await backendQuestionApi.getQuestion(user, id);
                 setQuestionType(response.data.questionType);
                 setFromSource(response.data.fromSource);
                 setTitle(response.data.title);

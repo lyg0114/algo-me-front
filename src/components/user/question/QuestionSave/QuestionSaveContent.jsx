@@ -3,7 +3,7 @@ import {Button, Col, Form, Row, Spinner} from "react-bootstrap";
 import {useAuth} from "../../../context/AuthContext";
 import {useNavigate, useParams} from "react-router-dom";
 import {handleLogError} from "../../../util/Helpers";
-import {backendApi} from "../../../util/BackendApi";
+import {backendQuestionApi} from "../../../util/api/BackendQuestionApi";
 
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
@@ -30,7 +30,7 @@ function QuestionSaveContent() {
     const fetchAndBindingQuestion = async () => {
         try {
             if (id) {
-                const response = await backendApi.getQuestion(user, id);
+                const response = await backendQuestionApi.getQuestion(user, id);
                 validate(response);
                 setQuestionType(response.data.questionType);
                 setFromSource(response.data.fromSource);
@@ -60,11 +60,11 @@ function QuestionSaveContent() {
         try {
             setIsSaveLoading(true);
             if (id) {
-                response = await backendApi.updateQuestion(id, question, user);
+                response = await backendQuestionApi.updateQuestion(id, question, user);
                 clearInput();
                 navigate('/view-question/' + id);
             } else {
-                response = await backendApi.addQuestion(question, user);
+                response = await backendQuestionApi.addQuestion(question, user);
                 clearInput();
                 navigate('/view-question/' + response.data.id);
             }

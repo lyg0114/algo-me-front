@@ -3,7 +3,7 @@ import {Button, Col, Form, Row, Spinner} from "react-bootstrap";
 import {useAuth} from "../../../context/AuthContext";
 import {useNavigate, useParams} from "react-router-dom";
 import {handleLogError} from "../../../util/Helpers";
-import {backendApi} from "../../../util/BackendApi";
+import {backendQuestionApi} from "../../../util/api/BackendQuestionApi";
 
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
@@ -29,7 +29,7 @@ function QuestionViewContent() {
     const fetchAndBindingQuestion = async () => {
         if (id) {
             try {
-                const response = await backendApi.getQuestion(user, id);
+                const response = await backendQuestionApi.getQuestion(user, id);
                 setQuestionType(response.data.questionType);
                 setFromSource(response.data.fromSource);
                 setTitle(response.data.title);
