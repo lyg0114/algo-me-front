@@ -4,10 +4,10 @@ import {useNavigate, useParams} from "react-router-dom";
 
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
-import {Editor} from "@toast-ui/react-editor";
 import {useAuth} from "../../context/AuthContext";
 import {backendQuestionApi} from "../../util/api/BackendQuestionApi";
 import {handleLogError} from "../../util/Helpers";
+import {BackendProfileApi} from "../../util/api/BackendProfileApi";
 
 function ProfileSaveContent() {
     const Auth = useAuth();
@@ -22,6 +22,8 @@ function ProfileSaveContent() {
     const {id} = useParams();
     const [isPageLoading, setIsPageLoading] = useState(true);
     const [isSaveLoading, setIsSaveLoading] = useState(false);
+
+    const [selectedFile, setSelectedFile] = useState(null);
 
     useEffect(() => {
         fetchAndBindingQuestion();
@@ -82,6 +84,15 @@ function ProfileSaveContent() {
         setQuestionType("");
     }
 
+    const handleFileChange = (event) => {
+        setSelectedFile(event.target.files[0]);
+    }
+
+    const handleUpload = () => {
+        debugger
+        BackendProfileApi.uploadThumnail(selectedFile, user);
+    };
+
     let colStyle = {
         paddingLeft: '0px',
         paddingRight: '0px'
@@ -99,44 +110,10 @@ function ProfileSaveContent() {
                 <Row className="g-4 mt-5 pl-5 pr-5" style={{height: '100vh'}}>
                     <Col xs='auto' md={2} sm={2} lg={2} xl={2} xxl={2}></Col>
                     <Col xs='auto' md={8} sm={8} lg={8} xl={8} xxl={8}>
-                        <Form className='header' onSubmit={handleSubmit}
-                              style={{height: '100%', color: 'white', position: 'relative'}}>
+
+                        <Form className='header' onSubmit={handleSubmit} style={{height: '50%', color: 'white', position: 'relative'}}>
                             <Form.Group as={Row} className="mb-3">
-                                <Form.Label column sm={2}> 유형 </Form.Label>
-                                <Col sm={5} style={colStyle}>
-                                    <Form.Select id='questionType'
-                                                 name='questionType'
-                                                 value={questionType}
-                                                 onChange={(e) => setQuestionType(e.target.value)}
-                                                 aria-label="Default select example"
-                                    >
-                                        <option value="">선택</option>
-                                        <option value="GREEDY">GREEDY</option>
-                                        <option value="DP">DP</option>
-                                        <option value="DFS">DFS</option>
-                                        <option value="BFS">BFS</option>
-                                    </Form.Select>
-                                </Col>
-                                <Col sm={5}></Col>
-                            </Form.Group>
-                            <Form.Group as={Row} className="mb-3">
-                                <Form.Label column sm={2}> 출처 </Form.Label>
-                                <Col sm={5} style={colStyle}>
-                                    <Form.Select id="fromSource"
-                                                 name="fromSource"
-                                                 value={fromSource}
-                                                 onChange={(e) => setFromSource(e.target.value)}
-                                                 aria-label="Default select example">
-                                        <option value="">선택</option>
-                                        <option value="LEETCODE">LEETCODE</option>
-                                        <option value="백준">백준</option>
-                                        <option value="프로그래머스">프로그래머스</option>
-                                    </Form.Select>
-                                </Col>
-                                <Col sm={5}></Col>
-                            </Form.Group>
-                            <Form.Group as={Row} className="mb-3">
-                                <Form.Label column sm={2}> 제목 </Form.Label>
+                                <Form.Label column sm={2}> 사용자명 </Form.Label>
                                 <Col sm={10} style={colStyle}>
                                     <Form.Control
                                         id="title"
@@ -144,34 +121,6 @@ function ProfileSaveContent() {
                                         value={title}
                                         type="text"
                                         onChange={(e) => setTitle(e.target.value)}
-                                    />
-                                </Col>
-                            </Form.Group>
-                            <Form.Group as={Row} className="mb-3">
-                                <Form.Label column sm={2}>
-                                    URL
-                                </Form.Label>
-                                <Col sm={10} style={colStyle}>
-                                    <Form.Control
-                                        id="url" name="url"
-                                        value={url}
-                                        onChange={(e) => setUrl(e.target.value)}
-                                        type="text"/>
-                                </Col>
-                            </Form.Group>
-                            <Form.Group as={Row} className="mb-3">
-                                <Form.Label column sm={2}>
-                                    내용
-                                </Form.Label>
-                                <Col sm={10} className='p-0 rounded'>
-                                    <Editor
-                                        initialValue={content}
-                                        previewStyle="vertical"
-                                        height="600px"
-                                        initialEditType="markdown"
-                                        useCommandShortcut={true}
-                                        ref={editorRef}
-                                        theme='dark'
                                     />
                                 </Col>
                             </Form.Group>
@@ -188,8 +137,16 @@ function ProfileSaveContent() {
                                     '저장'
                                 )}
                             </Button>
-
                         </Form>
+
+                        <div>
+                            <form>
+                                <input type="file" onChange={handleFileChange} />
+                                <button onClick={handleUpload}>Upload</button>
+                            </form>
+                        </div>
+
+
                     </Col>
                     <Col sm={2} md={2} lg={2} xl={2} xxl={2}></Col>
                 </Row>
