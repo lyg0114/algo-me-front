@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
-import {useNavigate, useParams, useSearchParams} from "react-router-dom";
-import {backendApi} from "../util/BackendApi";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import {handleLogError} from "../util/Helpers";
+import {BackendAuthApi as backendAuthApi} from "../util/api/BackendAuthApi";
 
 function CheckEmailPage(props) {
     const [searchParams] = useSearchParams();
@@ -15,7 +15,7 @@ function CheckEmailPage(props) {
     const checkEmail = async () => {
         try {
             if (token) {
-                const response = await backendApi.checkEmail(token);
+                const response = await backendAuthApi.checkEmail(token);
                 alert(response.data.message);
                 navigate('/login');
             } else {

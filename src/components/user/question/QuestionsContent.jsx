@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Button, Col, Container, Row} from "react-bootstrap";
-import {backendApi} from "../../util/BackendApi";
+import {backendQuestionApi} from "../../util/api/BackendQuestionApi";
 import {useAuth} from "../../context/AuthContext";
 import {handleLogError} from "../../util/Helpers";
 import ListPagination from "../../common/ListPagination";
@@ -57,7 +57,7 @@ function QuestionsContent() {
         setQuestions([]);
         let user = Auth.getUser();
         try {
-            const response = await backendApi.getQuestions(user, page, size, searchInput);
+            const response = await backendQuestionApi.getQuestions(user, page, size, searchInput);
             if (response.data === "") {
                 return;
             }
