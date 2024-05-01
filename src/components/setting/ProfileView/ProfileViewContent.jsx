@@ -8,40 +8,60 @@ import {Viewer} from "@toast-ui/react-editor";
 import {useAuth} from "../../context/AuthContext";
 import {backendQuestionApi} from "../../util/api/BackendQuestionApi";
 import {handleLogError} from "../../util/Helpers";
+import {backendProfileApi} from "../../util/api/BackendProfileApi";
+import {config} from "../../../Constants";
+import {BackendAuthApi as backendAuthApi} from "../../util/api/BackendAuthApi";
 
 function ProfileViewContent() {
     const Auth = useAuth();
     let user = Auth.getUser();
-    const editorRef = React.useRef();
-    const [title, setTitle] = useState('');
-    const [url, setUrl] = useState('');
-    const [fromSource, setFromSource] = useState('');
-    const [questionType, setQuestionType] = useState('');
-    const [content, setContent] = useState('');
+    const [email, setEmail] = useState('');
+    const [userName, setUserName] = useState('');
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
+    const [imageSrc, setImageSrc] = useState(null);
 
     useEffect(() => {
-        fetchAndBindingQuestion();
+        fetchAndBindingProfile();
+        fetchImage();
     }, []);
 
-    const fetchAndBindingQuestion = async () => {
-        const id = 1;
-        if (id) {
-            try {
-                const response = await backendQuestionApi.getQuestion(user, id);
-                setQuestionType(response.data.questionType);
-                setFromSource(response.data.fromSource);
-                setTitle(response.data.title);
-                setUrl(response.data.url);
-                setContent(response.data.content);
-            } catch (error) {
-                handleLogError(error);
-            } finally {
-                setIsLoading(false);
-            }
+    const fetchAndBindingProfile = async () => {
+        try {
+            const response = await backendProfileApi.getProfile(user);
+            // const response = await backendQuestionApi.getQuestion(user, id);
+            setEmail(response.data.email);
+            setUserName(response.data.userName);
+        } catch (error) {
+            handleLogError(error);
+        } finally {
+            setIsLoading(false);
         }
     };
+
+    const fetchImage = async () => {
+        try {
+            const response = await fetch(
+                config.url.API_BASE_URL + '/profile/thumnail', {
+                    headers : {
+                        'Authorization': backendAuthApi.bearerAuth(user)
+                    }
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch image');
+            }
+
+            const blob = await response.blob(); // 이미지 데이터를 Blob으로 가져옴
+            const imgUrl = URL.createObjectURL(blob); // Blob을 URL로 변환
+            setImageSrc(imgUrl);
+        } catch (error) {
+            console.error('Error fetching image:', error);
+        }
+    }
+
+
 
     const goToUpdate = () => {
         navigate(`/save-profile`);
@@ -82,46 +102,26 @@ function ProfileViewContent() {
                         </Form.Group>
 
                         <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm={2}> 제목 </Form.Label>
+                            <Form.Label column sm={2}> e-mail </Form.Label>
                             <Col sm={10} style={colStyle}>
-                                <div>{title}</div>
+                                <div>{email}</div>
                             </Col>
                         </Form.Group>
 
                         <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm={2}> 출처 </Form.Label>
+                            <Form.Label column sm={2}> 닉네임 </Form.Label>
                             <Col sm={5} style={colStyle}>
-                                <div>{fromSource}</div>
+                                <div>{userName}</div>
                             </Col>
                             <Col sm={5}></Col>
                         </Form.Group>
-
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm={2}> 유형 </Form.Label>
-                            <Col sm={5} style={colStyle}>
-                                <div>{questionType}</div>
-                            </Col>
-                            <Col sm={5}></Col>
-                        </Form.Group>
-
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm={2}>
-                                내용
-                            </Form.Label>
-                            <Col sm={10}>
-                                <Viewer
-                                    initialValue={content}
-                                    previewStyle="vertical"
-                                    height="600px"
-                                    initialEditType="markdown"
-                                    useCommandShortcut={true}
-                                    ref={editorRef}
-                                    theme="dark"
-                                />
-                            </Col>
-                        </Form.Group>
+                        {imageSrc && <img
+                            src={imageSrc}
+                            style={{width: '200px', height: '200px', borderRadius: '50%'}}
+                            alt="Example" />}
                     </Form>
                 )}
+
             </Col>
             <Col sm={2} md={2} lg={2} xl={2} xxl={2}></Col>
         </Row>
