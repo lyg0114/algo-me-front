@@ -18,7 +18,7 @@ function ProfileSaveContent() {
         async function fetchImage() {
             try {
                 const response = await fetch(
-                    config.url.API_BASE_URL + '/profile', {
+                    config.url.API_BASE_URL + '/profile/thumnail', {
                        headers : {
                            'Authorization': backendAuthApi.bearerAuth(user)
                        }
