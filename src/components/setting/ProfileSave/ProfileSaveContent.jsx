@@ -1,26 +1,43 @@
 import React, {useEffect, useState} from "react";
-import {Button, Col, Form, Row, Spinner} from "react-bootstrap";
-import {useNavigate, useParams} from "react-router-dom";
+import {Button, Col, Row} from "react-bootstrap";
 
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
 import {useAuth} from "../../context/AuthContext";
+import {BackendAuthApi as backendAuthApi} from "../../util/api/BackendAuthApi";
+import {config} from "../../../Constants";
 
 function ProfileSaveContent() {
     const Auth = useAuth();
     let user = Auth.getUser();
-    const editorRef = React.useRef();
-    const [title, setTitle] = useState('');
-    const [url, setUrl] = useState('');
-    const [fromSource, setFromSource] = useState('');
-    const [questionType, setQuestionType] = useState('');
-    const [content, setContent] = useState('');
-    const navigate = useNavigate();
-    const {id} = useParams();
-    // const [isPageLoading, setIsPageLoading] = useState(true);
-    const [isSaveLoading, setIsSaveLoading] = useState(false);
-
     const [selectedFile, setSelectedFile] = useState(null);
+    const [imageSrc, setImageSrc] = useState(null);
+
+    useEffect(() => {
+        // 이미지를 가져오는 함수
+        async function fetchImage() {
+            try {
+                const response = await fetch(
+                    config.url.API_BASE_URL + '/profile', {
+                       headers : {
+                           'Authorization': backendAuthApi.bearerAuth(user)
+                       }
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch image');
+                }
+                const blob = await response.blob(); // 이미지 데이터를 Blob으로 가져옴
+                const imgUrl = URL.createObjectURL(blob); // Blob을 URL로 변환
+                setImageSrc(imgUrl);
+            } catch (error) {
+                console.error('Error fetching image:', error);
+            }
+        }
+        fetchImage();
+    }, []); // 컴포넌트가 마운트될 때 한 번만 실행
+
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
@@ -30,17 +47,15 @@ function ProfileSaveContent() {
         event.preventDefault();
         const formData = new FormData();
         formData.append('file', selectedFile);
-        formData.append('name', 'test');
         try {
-            const response = await fetch('http://localhost:3000/api/profile/upload', {
+            const response = await fetch(config.url.API_BASE_URL + '/profile/upload', {
                 method: 'POST',
                 body: formData,
-                headers: {
-                    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3MTQyOTI5NTksImlhdCI6MTcxNDI4OTM1OSwianRpIjoiNzE2YjY2NjQtMzdkYS00ZWIzLWJhNWEtMDk0MTNjOGUxMTk2IiwiaXNzIjoib3JkZXItYXBpIiwiYXVkIjoib3JkZXItYXBwIiwic3ViIjoidXNlckBleGFtcGxlLmNvbSIsInJvbGVzIjpbIlVTRVIiXSwibmFtZSI6Imt5bGUiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ1c2VyQGV4YW1wbGUuY29tIiwiZW1haWwiOiJ1c2VyQGV4YW1wbGUuY29tIn0.WdWtLdrX0ncBQ_BLYfXEPCGQ7TOCz04-3VPBIk304SI',
-                }
+                headers: {'Authorization': backendAuthApi.bearerAuth(user)}
             });
 
             if (response.ok) {
+                alert('File uploaded successfully')
                 console.log('File uploaded successfully');
             } else {
                 console.error('Failed to upload file:', response.statusText);
@@ -51,53 +66,27 @@ function ProfileSaveContent() {
     };
 
 
-    let colStyle = {
-        paddingLeft: '0px',
-        paddingRight: '0px'
-    };
-
     return (
         <>
             <Row className="g-4 mt-5 pl-5 pr-5" style={{height: '100vh'}}>
                 <Col xs='auto' md={2} sm={2} lg={2} xl={2} xxl={2}></Col>
                 <Col xs='auto' md={8} sm={8} lg={8} xl={8} xxl={8}>
-
-                    {/*<Form className='header' onSubmit={handleSubmit} style={{height: '50%', color: 'white', position: 'relative'}}>*/}
-                    {/*    <Form.Group as={Row} className="mb-3">*/}
-                    {/*        <Form.Label column sm={2}> 사용자명 </Form.Label>*/}
-                    {/*        <Col sm={10} style={colStyle}>*/}
-                    {/*            <Form.Control*/}
-                    {/*                id="title"*/}
-                    {/*                name="title"*/}
-                    {/*                value={title}*/}
-                    {/*                type="text"*/}
-                    {/*                onChange={(e) => setTitle(e.target.value)}*/}
-                    {/*            />*/}
-                    {/*        </Col>*/}
-                    {/*    </Form.Group>*/}
-
-                    {/*    <Button style={{*/}
-                    {/*        position: 'absolute',*/}
-                    {/*        right: 0,*/}
-                    {/*        marginTop: '7px',*/}
-                    {/*        marginLeft: '7px'*/}
-                    {/*    }} type="submit" disabled={isSaveLoading}>*/}
-                    {/*        {isSaveLoading ? (*/}
-                    {/*            <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true"/>*/}
-                    {/*        ) : (*/}
-                    {/*            '저장'*/}
-                    {/*        )}*/}
-                    {/*    </Button>*/}
-                    {/*</Form>*/}
-
                     <div>
                         <form>
                             <input type="file" onChange={handleFileChange} />
-                            <button onClick={handleUpload}>Upload</button>
+                            <Button onClick={handleUpload}
+                                    style={{
+                                        position: 'relative',
+                                        width: '70px',
+                                        background: 'gray',
+                                        borderColor: 'gray'
+                                    }}>업로드</Button>
                         </form>
                     </div>
-
-
+                    {imageSrc && <img
+                        src={imageSrc}
+                        style={{width: '200px', height: '200px', borderRadius: '50%'}}
+                        alt="Example" />}
                 </Col>
                 <Col sm={2} md={2} lg={2} xl={2} xxl={2}></Col>
             </Row>
