@@ -61,8 +61,6 @@ function ProfileViewContent() {
         }
     }
 
-
-
     const goToUpdate = () => {
         navigate(`/save-profile`);
     }
