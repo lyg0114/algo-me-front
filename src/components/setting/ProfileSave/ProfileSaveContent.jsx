@@ -8,10 +8,13 @@ import {BackendAuthApi as backendAuthApi} from "../../util/api/BackendAuthApi";
 import {config} from "../../../Constants";
 import {backendProfileApi} from "../../util/api/BackendProfileApi";
 import {handleLogError} from "../../util/Helpers";
+import {useNavigate} from "react-router-dom";
 
 function ProfileSaveContent() {
     const Auth = useAuth();
     let user = Auth.getUser();
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState('');
     const [userName, setUserName] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
@@ -58,13 +61,21 @@ function ProfileSaveContent() {
         }
     }
 
-
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
     }
 
-    const handleUpload = async (event) => {
+    // TODO : 유효성 처리 로직 추가
+    const handleSubmit = async (event) => {
         event.preventDefault();
+        try {
+            let profileInfo = {email, userName};
+            const response = await backendProfileApi.updateProfile(profileInfo, user);
+            navigate('/view-profile');
+        } catch (error) {
+            handleLogError(error)
+        }
+
         if(selectedFile != null){
             const formData = new FormData();
             formData.append('file', selectedFile);
@@ -85,12 +96,6 @@ function ProfileSaveContent() {
                 console.error('Error uploading file:', error);
             }
         }
-
-        
-        // TODO : 수정된 정보 업데이트 로직 추가
-
-
-
     };
 
     let colStyle = {
@@ -154,7 +159,7 @@ function ProfileSaveContent() {
                             style={{width: '200px', height: '200px', borderRadius: '50%'}}
                             alt="Example" />}
 
-                        <Button onClick={handleUpload}
+                        <Button onClick={handleSubmit}
                                 style={{
                                     position: 'relative',
                                     width: '70px',
