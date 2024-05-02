@@ -71,30 +71,38 @@ function ProfileSaveContent() {
         try {
             let profileInfo = {email, userName};
             const response = await backendProfileApi.updateProfile(profileInfo, user);
-            navigate('/view-profile');
         } catch (error) {
             handleLogError(error)
+        } finally {
+            navigate('/view-profile');
+        }
+    };
+
+    const handleUploadThumnail = async (event) => {
+        event.preventDefault();
+        if(selectedFile == null){
+            alert("파일을 선택해 주세요.");
+            return;
         }
 
-        if(selectedFile != null){
-            const formData = new FormData();
-            formData.append('file', selectedFile);
-            try {
-                const response = await fetch(config.url.API_BASE_URL + '/profile/upload', {
-                    method: 'POST',
-                    body: formData,
-                    headers: {'Authorization': backendAuthApi.bearerAuth(user)}
-                });
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        try {
+            const response = await fetch(config.url.API_BASE_URL + '/profile/upload', {
+                method: 'POST',
+                body: formData,
+                headers: {'Authorization': backendAuthApi.bearerAuth(user)}
+            });
 
-                if (response.ok) {
-                    alert('File uploaded successfully')
-                    console.log('File uploaded successfully');
-                } else {
-                    console.error('Failed to upload file:', response.statusText);
-                }
-            } catch (error) {
-                console.error('Error uploading file:', error);
+            if (response.ok) {
+                alert('썸네일 수정이 완료되었습니다.')
+                navigate('/view-profile');
+                console.log('File uploaded successfully');
+            } else {
+                console.error('Failed to upload file:', response.statusText);
             }
+        } catch (error) {
+            console.error('Error uploading file:', error);
         }
     };
 
@@ -116,59 +124,66 @@ function ProfileSaveContent() {
                         </Spinner>
                     </div>
                 ) : (
+                    <div>
+                        <Form className='header' style={{height: '100%', color: 'white', position: 'relative'}}>
+                            <Form.Group as={Row} className="mb-3"> </Form.Group>
+                            <Form.Group as={Row} className="mb-3">
+                                <Form.Label column sm={2}> e-mail </Form.Label>
+                                <Col sm={10} style={colStyle}>
+                                    <Form.Control
+                                        id="email" name="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        type="text"/>
+                                </Col>
+                            </Form.Group>
 
-                    <Form className='header' style={{height: '100%', color: 'white', position: 'relative'}}>
-                        <Form.Group as={Row} className="mb-3"> </Form.Group>
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm={2}> e-mail </Form.Label>
-                            <Col sm={10} style={colStyle}>
-                                <Form.Control
-                                    id="email" name="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    type="text"/>
-                            </Col>
-                        </Form.Group>
+                            <Form.Group as={Row} className="mb-3">
+                                <Form.Label column sm={2}> 닉네임 </Form.Label>
+                                <Col sm={5} style={colStyle}>
+                                    <Form.Control
+                                        id="userName" name="userName"
+                                        value={userName}
+                                        onChange={(e) => setUserName(e.target.value)}
+                                        type="text"/>
+                                </Col>
+                                <Col sm={5}></Col>
+                            </Form.Group>
+                            <Button onClick={handleSubmit}
+                                    style={{
+                                        position: 'relative',
+                                        width: '70px',
+                                        background: 'gray',
+                                        borderColor: 'gray',
+                                        marginTop: '20px'
+                                    }}>수정</Button>
+                        </Form>
+                        <Form className='header' style={{ marginTop: '100px', height: '100%', color: 'white', position: 'relative'}}>
+                            <Form.Group as={Row} className="mb-3">
+                                <Form.Label column sm={2}> 썸네일 </Form.Label>
+                                <Col sm={5} style={colStyle}>
+                                    <Form.Control
+                                        id="file" name="file"
+                                        onChange={handleFileChange}
+                                        type="file"/>
+                                </Col>
+                                <Col sm={5}></Col>
+                            </Form.Group>
+                            {imageSrc && <img
+                                src={imageSrc}
+                                style={{width: '200px', height: '200px', borderRadius: '50%'}}
+                                alt="Example" />}
 
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm={2}> 닉네임 </Form.Label>
-                            <Col sm={5} style={colStyle}>
-                                <Form.Control
-                                    id="userName" name="userName"
-                                    value={userName}
-                                    onChange={(e) => setUserName(e.target.value)}
-                                    type="text"/>
-                            </Col>
-                            <Col sm={5}></Col>
-                        </Form.Group>
-
-                        <Form.Group as={Row} className="mb-3">
-                            <Form.Label column sm={2}> 썸네일 </Form.Label>
-                            <Col sm={5} style={colStyle}>
-                                <Form.Control
-                                    id="file" name="file"
-                                    onChange={handleFileChange}
-                                    type="file"/>
-                            </Col>
-                            <Col sm={5}></Col>
-                        </Form.Group>
-
-
-                        {imageSrc && <img
-                            src={imageSrc}
-                            style={{width: '200px', height: '200px', borderRadius: '50%'}}
-                            alt="Example" />}
-
-                        <Button onClick={handleSubmit}
-                                style={{
-                                    position: 'relative',
-                                    width: '70px',
-                                    background: 'gray',
-                                    borderColor: 'gray',
-                                    marginTop: '100px'
-                                }}>업로드</Button>
-
-                    </Form>
+                            <Button onClick={handleUploadThumnail}
+                                    style={{
+                                        position: 'relative',
+                                        width: '150px',
+                                        background: 'gray',
+                                        borderColor: 'gray',
+                                        marginTop: '20px'
+                                    }}>썸네일 업로드</Button>
+                        </Form>
+                    </div>
                 )}
             </Col>
             <Col sm={2} md={2} lg={2} xl={2} xxl={2}></Col>
