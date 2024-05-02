@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {Navigate, useNavigate} from 'react-router-dom';
 import {useAuth} from './context/AuthContext';
-import {backendApi} from './util/BackendApi';
 import {handleLogError} from './util/Helpers';
 import {Button, Form} from 'react-bootstrap';
+import {BackendAuthApi as backendAuthApi} from "./util/api/BackendAuthApi";
 
 function Login() {
     const Auth = useAuth();
@@ -48,7 +48,7 @@ function Login() {
         }
 
         try {
-            const response = await backendApi.signup({email, userName, password});
+            const response = await backendAuthApi.signup({email, userName, password});
             setEmail('');
             setPassword('');
             setUserName('');

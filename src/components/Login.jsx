@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {Link, Navigate} from 'react-router-dom';
 import {useAuth} from './context/AuthContext';
-import {backendApi} from './util/BackendApi';
 import {handleLogError, parseJwt} from './util/Helpers';
 import {Button, Form, Spinner} from 'react-bootstrap';
+import {BackendAuthApi as backendAuthApi} from "./util/api/BackendAuthApi";
 
 function Login() {
     const Auth = useAuth();
@@ -32,7 +32,7 @@ function Login() {
 
         try {
             setIsLoading(true);
-            const response = await backendApi.authenticate(email, password);
+            const response = await backendAuthApi.authenticate(email, password);
             const accessToken = response.data.token;
             const data = parseJwt(accessToken);
             const authenticatedUser = {data, accessToken};
